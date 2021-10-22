@@ -1,0 +1,2553 @@
+
+                 *********************************************
+                 *                                           *
+                 *             A I M - S p i c e             *
+                 *                                           *
+                 *         Professional Version 2020.100           *
+                 *                                           *
+                 *********************************************
+
+	Date: Fri Oct 22 09:00:11 2021
+	Circuit File: C:\Users\HP\dicex\project\spice\pixelSensor_tb.cir
+	Analysis: DC Temperature Sweep
+
+**************************  Circuit Description  **************************
+
+     1:  * Pixel sensor testbench
+     2:  **********************************************************************
+     3:  **        Copyright (c) 2021 Carsten Wulff Software, Norway
+     4:  ** *******************************************************************
+     5:  ** Created       : wulff at 2021-7-22
+     6:  ** *******************************************************************
+     7:  **  The MIT License (MIT)
+     8:  **
+     9:  **  Permission is hereby granted, free of charge, to any person obtaining a copy
+    10:  **  of this software and associated documentation files (the "Software"), to deal
+    11:  **  in the Software without restriction, including without limitation the rights
+    12:  **  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    13:  **  copies of the Software, and to permit persons to whom the Software is
+    14:  **  furnished to do so, subject to the following conditions:
+    15:  **
+    16:  **  The above copyright notice and this permission notice shall be included in all
+    17:  **  copies or substantial portions of the Software.
+    18:  **
+    19:  **  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    20:  **  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    21:  **  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    22:  **  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    23:  **  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    24:  **  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    25:  **  SOFTWARE.
+    26:  **
+    27:  **********************************************************************
+    28:  
+    29:  *----------------------------------------------------------------
+    30:  * Include
+    31:  *----------------------------------------------------------------
+    32:  *include ../../models/ptm_130_ngspice.spi
+    33:  * Beta Version released on 2/22/06
+    34:  
+    35:  * PTM 130nm NMOS
+    36:  
+    37:  .model  nmos  nmos  level = 54
+    38:  +version = 4.5.0          binunit = 1            paramchk= 1            mobmod  = 0
+    39:  +capmod  = 2            igcmod  = 1            igbmod  = 1            geomod  = 1
+    40:  +diomod  = 1            rdsmod  = 0            rbodymod= 1            rgatemod= 1
+    41:  +permod  = 1            acnqsmod= 0            trnqsmod= 0
+    42:  +tnom    = 27           toxe    = 2.25e-9      toxp    = 1.6e-9       toxm    = 2.25e-9
+    43:  +dtox    = 0.65e-9      epsrox  = 3.9          wint    = 5e-009       lint    = 10.5e-009
+    44:  +ll      = 0            wl      = 0            lln     = 1            wln     = 1
+    45:  +lw      = 0            ww      = 0            lwn     = 1            wwn     = 1
+    46:  +lwl     = 0            wwl     = 0            xpart   = 0            toxref  = 2.25e-9
+    47:  +xl      = -60e-9
+    48:  +vth0    = 0.3782       k1      = 0.4          k2      = 0.01         k3      = 0
+    49:  +k3b     = 0            w0      = 2.5e-006     dvt0    = 1            dvt1    = 2
+    50:  +dvt2    = -0.032       dvt0w   = 0            dvt1w   = 0            dvt2w   = 0
+    51:  +dsub    = 0.1          minv    = 0.05         voffl   = 0            dvtp0   = 1.2e-010
+    52:  +dvtp1   = 0.1          lpe0    = 0            lpeb    = 0            xj      = 3.92e-008
+    53:  +ngate   = 2e+020       ndep    = 1.54e+018    nsd     = 2e+020       phin    = 0
+    54:  +cdsc    = 0.0002       cdscb   = 0            cdscd   = 0            cit     = 0
+    55:  +voff    = -0.13        nfactor = 1.5          eta0    = 0.0092       etab    = 0
+    56:  +vfb     = -0.55        u0      = 0.05928      ua      = 6e-010       ub      = 1.2e-018
+    57:  +uc      = 0            vsat    = 100370       a0      = 1            ags     = 1e-020
+    58:  +a1      = 0            a2      = 1            b0      = 0            b1      = 0
+    59:  +keta    = 0.04         dwg     = 0            dwb     = 0            pclm    = 0.06
+    60:  +pdiblc1 = 0.001        pdiblc2 = 0.001        pdiblcb = -0.005       drout   = 0.5
+    61:  +pvag    = 1e-020       delta   = 0.01         pscbe1  = 8.14e+008    pscbe2  = 1e-007
+    62:  +fprout  = 0.2          pdits   = 0.08         pditsd  = 0.23         pditsl  = 2.3e+006
+    63:  +rsh     = 5            rdsw    = 200          rsw     = 100          rdw     = 100
+    64:  +rdswmin = 0            rdwmin  = 0            rswmin  = 0            prwg    = 0
+    65:  +prwb    = 6.8e-011     wr      = 1            alpha0  = 0.074        alpha1  = 0.005
+    66:  +beta0   = 30           agidl   = 0.0002       bgidl   = 2.1e+009     cgidl   = 0.0002
+    67:  +egidl   = 0.8
+    68:  +aigbacc = 0.012        bigbacc = 0.0028       cigbacc = 0.002
+    69:  +nigbacc = 1            aigbinv = 0.014        bigbinv = 0.004        cigbinv = 0.004
+    70:  +eigbinv = 1.1          nigbinv = 3            aigc    = 0.012        bigc    = 0.0028
+    71:  +cigc    = 0.002        aigsd   = 0.012        bigsd   = 0.0028       cigsd   = 0.002
+    72:  +nigc    = 1            poxedge = 1            pigcd   = 1            ntox    = 1
+    73:  +xrcrg1  = 12           xrcrg2  = 5
+    74:  +cgso    = 2.4e-010     cgdo    = 2.4e-010     cgbo    = 2.56e-011    cgdl    = 2.653e-10
+    75:  +cgsl    = 2.653e-10    ckappas = 0.03         ckappad = 0.03         acde    = 1
+    76:  +moin    = 15           noff    = 0.9          voffcv  = 0.02
+    77:  +kt1     = -0.11        kt1l    = 0            kt2     = 0.022        ute     = -1.5
+    78:  +ua1     = 4.31e-009    ub1     = 7.61e-018    uc1     = -5.6e-011    prt     = 0
+    79:  +at      = 33000
+    80:  +fnoimod = 1            tnoimod = 0
+    81:  +jss     = 0.0001       jsws    = 1e-011       jswgs   = 1e-010       njs     = 1
+    82:  +ijthsfwd= 0.01         ijthsrev= 0.001        bvs     = 10           xjbvs   = 1
+    83:  +jsd     = 0.0001       jswd    = 1e-011       jswgd   = 1e-010       njd     = 1
+    84:  +ijthdfwd= 0.01         ijthdrev= 0.001        bvd     = 10           xjbvd   = 1
+    85:  +pbs     = 1            cjs     = 0.0005       mjs     = 0.5          pbsws   = 1
+    86:  +cjsws   = 5e-010       mjsws   = 0.33         pbswgs  = 1            cjswgs  = 3e-010
+    87:  +mjswgs  = 0.33         pbd     = 1            cjd     = 0.0005       mjd     = 0.5
+    88:  +pbswd   = 1            cjswd   = 5e-010       mjswd   = 0.33         pbswgd  = 1
+    89:  +cjswgd  = 5e-010       mjswgd  = 0.33         tpb     = 0.005        tcj     = 0.001
+    90:  +tpbsw   = 0.005        tcjsw   = 0.001        tpbswg  = 0.005        tcjswg  = 0.001
+    91:  +xtis    = 3            xtid    = 3
+    92:  +dmcg    = 0e-006       dmci    = 0e-006       dmdg    = 0e-006       dmcgt   = 0e-007
+    93:  +dwj     = 0.0e-008     xgw     = 0e-007       xgl     = 0e-008
+    94:  +rshg    = 0.4          gbmin   = 1e-010       rbpb    = 5            rbpd    = 15
+    95:  +rbps    = 15           rbdb    = 15           rbsb    = 15           ngcon   = 1
+    96:  
+    97:  
+    98:  
+    99:  
+   100:  
+   101:  
+   102:  
+   103:  
+   104:  
+   105:  * PTM 130nm PMOS
+   106:  
+   107:  .model  pmos  pmos  level = 54
+   108:  +version = 4.5.0          binunit = 1            paramchk= 1            mobmod  = 0
+   109:  +capmod  = 2            igcmod  = 1            igbmod  = 1            geomod  = 1
+   110:  +diomod  = 1            rdsmod  = 0            rbodymod= 1            rgatemod= 1
+   111:  +permod  = 1            acnqsmod= 0            trnqsmod= 0
+   112:  +tnom    = 27           toxe    = 2.35e-009    toxp    = 1.6e-009     toxm    = 2.35e-009
+   113:  +dtox    = 0.75e-9      epsrox  = 3.9          wint    = 5e-009       lint    = 10.5e-009
+   114:  +ll      = 0            wl      = 0            lln     = 1            wln     = 1
+   115:  +lw      = 0            ww      = 0            lwn     = 1            wwn     = 1
+   116:  +lwl     = 0            wwl     = 0            xpart   = 0            toxref  = 2.35e-009
+   117:  +xl      = -60e-9
+   118:  +vth0    = -0.321       k1      = 0.4          k2      = -0.01        k3      = 0
+   119:  +k3b     = 0            w0      = 2.5e-006     dvt0    = 1            dvt1    = 2
+   120:  +dvt2    = -0.032       dvt0w   = 0            dvt1w   = 0            dvt2w   = 0
+   121:  +dsub    = 0.1          minv    = 0.05         voffl   = 0            dvtp0   = 1e-009
+   122:  +dvtp1   = 0.05         lpe0    = 0            lpeb    = 0            xj      = 3.92e-008
+   123:  +ngate   = 2e+020       ndep    = 1.14e+018    nsd     = 2e+020       phin    = 0
+   124:  +cdsc    = 0.000258     cdscb   = 0            cdscd   = 6.1e-008     cit     = 0
+   125:  +voff    = -0.126       nfactor = 1.5          eta0    = 0.0092       etab    = 0
+   126:  +vfb     = 0.55         u0      = 0.00835      ua      = 2.0e-009     ub      = 0.5e-018
+   127:  +uc      = -3e-011      vsat    = 70000        a0      = 1.0          ags     = 1e-020
+   128:  +a1      = 0            a2      = 1            b0      = -1e-020      b1      = 0
+   129:  +keta    = -0.047       dwg     = 0            dwb     = 0            pclm    = 0.12
+   130:  +pdiblc1 = 0.001        pdiblc2 = 0.001        pdiblcb = 3.4e-008     drout   = 0.56
+   131:  +pvag    = 1e-020       delta   = 0.01         pscbe1  = 8.14e+008    pscbe2  = 9.58e-007
+   132:  +fprout  = 0.2          pdits   = 0.08         pditsd  = 0.23         pditsl  = 2.3e+006
+   133:  +rsh     = 5            rdsw    = 240          rsw     = 120          rdw     = 120
+   134:  +rdswmin = 0            rdwmin  = 0            rswmin  = 0            prwg    = 3.22e-008
+   135:  +prwb    = 6.8e-011     wr      = 1            alpha0  = 0.074        alpha1  = 0.005
+   136:  +beta0   = 30           agidl   = 0.0002       bgidl   = 2.1e+009     cgidl   = 0.0002
+   137:  +egidl   = 0.8
+   138:  +aigbacc = 0.012        bigbacc = 0.0028       cigbacc = 0.002
+   139:  +nigbacc = 1            aigbinv = 0.014        bigbinv = 0.004        cigbinv = 0.004
+   140:  +eigbinv = 1.1          nigbinv = 3            aigc    = 0.69         bigc    = 0.0012
+   141:  +cigc    = 0.0008       aigsd   = 0.0087       bigsd   = 0.0012       cigsd   = 0.0008
+   142:  +nigc    = 1            poxedge = 1            pigcd   = 1            ntox    = 1
+   143:  +xrcrg1  = 12           xrcrg2  = 5
+   144:  +cgso    = 2.4e-010     cgdo    = 2.4e-010     cgbo    = 2.56e-011    cgdl    = 2.653e-10
+   145:  +cgsl    = 2.653e-10    ckappas = 0.03         ckappad = 0.03         acde    = 1
+   146:  +moin    = 15           noff    = 0.9          voffcv  = 0.02
+   147:  +kt1     = -0.11        kt1l    = 0            kt2     = 0.022        ute     = -1.5
+   148:  +ua1     = 4.31e-009    ub1     = 7.61e-018    uc1     = -5.6e-011    prt     = 0
+   149:  +at      = 33000
+   150:  +fnoimod = 1            tnoimod = 0
+   151:  +jss     = 0.0001       jsws    = 1e-011       jswgs   = 1e-010       njs     = 1
+   152:  +ijthsfwd= 0.01         ijthsrev= 0.001        bvs     = 10           xjbvs   = 1
+   153:  +jsd     = 0.0001       jswd    = 1e-011       jswgd   = 1e-010       njd     = 1
+   154:  +ijthdfwd= 0.01         ijthdrev= 0.001        bvd     = 10           xjbvd   = 1
+   155:  +pbs     = 1            cjs     = 0.0005       mjs     = 0.5          pbsws   = 1
+   156:  +cjsws   = 5e-010       mjsws   = 0.33         pbswgs  = 1            cjswgs  = 3e-010
+   157:  +mjswgs  = 0.33         pbd     = 1            cjd     = 0.0005       mjd     = 0.5
+   158:  +pbswd   = 1            cjswd   = 5e-010       mjswd   = 0.33         pbswgd  = 1
+   159:  +cjswgd  = 5e-010       mjswgd  = 0.33         tpb     = 0.005        tcj     = 0.001
+   160:  +tpbsw   = 0.005        tcjsw   = 0.001        tpbswg  = 0.005        tcjswg  = 0.001
+   161:  +xtis    = 3            xtid    = 3
+   162:  +dmcg    = 0e-006       dmci    = 0e-006       dmdg    = 0e-006       dmcgt   = 0e-007
+   163:  +dwj     = 0.0e-008     xgw     = 0e-007       xgl     = 0e-008
+   164:  +rshg    = 0.4          gbmin   = 1e-010       rbpb    = 5            rbpd    = 15
+   165:  +rbps    = 15           rbdb    = 15           rbsb    = 15           ngcon   = 1
+   166:  
+   167:  
+   168:  
+   169:  
+   170:  
+   171:  
+   172:  
+   173:  
+   174:  
+   175:  *end of: ../../models/ptm_130_ngspice.spi
+   176:  *include ../../lib/SUN_TR_GF130N.spi
+   177:  * Transistor library
+   178:  
+   179:  .SUBCKT PCH D G S B
+   180:  M1 D G S B pmos  w=1.08u  l=0.13u
+   181:  .ENDS
+   182:  
+   183:  .SUBCKT NCH D G S B
+   184:  M1 D G S B nmos  w=1.08u  l=0.13u
+   185:  .ENDS
+   186:  
+   187:  .SUBCKT NCHCM D G S B
+   188:  XM0 N0 G S B NCH
+   189:  XM1 N1 G N0 B NCH
+   190:  XM4 N2 G N1 B NCH
+   191:  XM5 D G N2 B NCH
+   192:  .ENDS
+   193:  
+   194:  .SUBCKT PCHCM D G S B
+   195:  XM0 N0 G S B PCH
+   196:  XM1 N1 G N0 B PCH
+   197:  XM4 N2 G N1 B PCH
+   198:  XM5 D G N2 B PCH
+   199:  .ENDS
+   200:  
+   201:  .SUBCKT NCHA D G S B
+   202:  XM0 D G S B NCH
+   203:  XM1 S G D B NCH
+   204:  .ENDS
+   205:  
+   206:  .SUBCKT PCHA D G S B
+   207:  XM0 D G S B PCH
+   208:  XM1 S G D B PCH
+   209:  .ENDS
+   210:  
+   211:  .SUBCKT NCHCM2 D G S B
+   212:  XM0 D G S B NCHCM
+   213:  XM1 S G D B NCHCM
+   214:  .ENDS
+   215:  
+   216:  .SUBCKT PCHCM2 D G S B
+   217:  XM0 D G S B PCHCM
+   218:  XM1 S G D B PCHCM
+   219:  .ENDS
+   220:  
+   221:  .SUBCKT PCH_4C D G S B
+   222:  M1 D G S B pmos  w=2.52u  l=0.13u
+   223:  .ENDS
+   224:  
+   225:  .SUBCKT PCHA_4C D G S B
+   226:  XM0 D G S B PCH_4C
+   227:  XM1 S G D B PCH_4C
+   228:  .ENDS
+   229:  
+   230:  .SUBCKT PCHCM_4C D G S B
+   231:  XM0 N0 G S B PCH_4C
+   232:  XM1 N1 G N0 B PCH_4C
+   233:  XM4 N2 G N1 B PCH_4C
+   234:  XM5 D G N2 B PCH_4C
+   235:  .ENDS
+   236:  
+   237:  .SUBCKT PCHCM2_4C D G S B
+   238:  XM0 D G S B PCHCM_4C
+   239:  XM1 S G D B PCHCM_4C
+   240:  .ENDS
+   241:  
+   242:  .SUBCKT PCH_6C D G S B
+   243:  M1 D G S B pmos  w=3.96u  l=0.13u
+   244:  .ENDS
+   245:  
+   246:  .SUBCKT PCHA_6C D G S B
+   247:  XM0 D G S B PCH_6C
+   248:  XM1 S G D B PCH_6C
+   249:  .ENDS
+   250:  
+   251:  .SUBCKT PCHCM_6C D G S B
+   252:  XM0 N0 G S B PCH_6C
+   253:  XM1 N1 G N0 B PCH_6C
+   254:  XM4 N2 G N1 B PCH_6C
+   255:  XM5 D G N2 B PCH_6C
+   256:  .ENDS
+   257:  
+   258:  .SUBCKT PCHCM2_6C D G S B
+   259:  XM0 D G S B PCHCM_6C
+   260:  XM1 S G D B PCHCM_6C
+   261:  .ENDS
+   262:  
+   263:  .SUBCKT PCH_10C D G S B
+   264:  M1 D G S B pmos  w=6.84u  l=0.13u
+   265:  .ENDS
+   266:  
+   267:  .SUBCKT PCHA_10C D G S B
+   268:  XM0 D G S B PCH_10C
+   269:  XM1 S G D B PCH_10C
+   270:  .ENDS
+   271:  
+   272:  .SUBCKT PCHCM_10C D G S B
+   273:  XM0 N0 G S B PCH_10C
+   274:  XM1 N1 G N0 B PCH_10C
+   275:  XM4 N2 G N1 B PCH_10C
+   276:  XM5 D G N2 B PCH_10C
+   277:  .ENDS
+   278:  
+   279:  .SUBCKT PCHCM2_10C D G S B
+   280:  XM0 D G S B PCHCM_10C
+   281:  XM1 S G D B PCHCM_10C
+   282:  .ENDS
+   283:  
+   284:  .SUBCKT PCH_12C D G S B
+   285:  M1 D G S B pmos  w=8.28u  l=0.13u
+   286:  .ENDS
+   287:  
+   288:  .SUBCKT PCHA_12C D G S B
+   289:  XM0 D G S B PCH_12C
+   290:  XM1 S G D B PCH_12C
+   291:  .ENDS
+   292:  
+   293:  .SUBCKT PCHCM_12C D G S B
+   294:  XM0 N0 G S B PCH_12C
+   295:  XM1 N1 G N0 B PCH_12C
+   296:  XM4 N2 G N1 B PCH_12C
+   297:  XM5 D G N2 B PCH_12C
+   298:  .ENDS
+   299:  
+   300:  .SUBCKT PCHCM2_12C D G S B
+   301:  XM0 D G S B PCHCM_12C
+   302:  XM1 S G D B PCHCM_12C
+   303:  .ENDS
+   304:  
+   305:  .SUBCKT NCH_4C D G S B
+   306:  M1 D G S B nmos  w=2.52u  l=0.13u
+   307:  .ENDS
+   308:  
+   309:  .SUBCKT NCHA_4C D G S B
+   310:  XM0 D G S B NCH_4C
+   311:  XM1 S G D B NCH_4C
+   312:  .ENDS
+   313:  
+   314:  .SUBCKT NCHCM_4C D G S B
+   315:  XM0 N0 G S B NCH_4C
+   316:  XM1 N1 G N0 B NCH_4C
+   317:  XM4 N2 G N1 B NCH_4C
+   318:  XM5 D G N2 B NCH_4C
+   319:  .ENDS
+   320:  
+   321:  .SUBCKT NCHCM2_4C D G S B
+   322:  XM0 D G S B NCHCM_4C
+   323:  XM1 S G D B NCHCM_4C
+   324:  .ENDS
+   325:  
+   326:  .SUBCKT NCH_6C D G S B
+   327:  M1 D G S B nmos  w=3.96u  l=0.13u
+   328:  .ENDS
+   329:  
+   330:  .SUBCKT NCHA_6C D G S B
+   331:  XM0 D G S B NCH_6C
+   332:  XM1 S G D B NCH_6C
+   333:  .ENDS
+   334:  
+   335:  .SUBCKT NCHCM_6C D G S B
+   336:  XM0 N0 G S B NCH_6C
+   337:  XM1 N1 G N0 B NCH_6C
+   338:  XM4 N2 G N1 B NCH_6C
+   339:  XM5 D G N2 B NCH_6C
+   340:  .ENDS
+   341:  
+   342:  .SUBCKT NCHCM2_6C D G S B
+   343:  XM0 D G S B NCHCM_6C
+   344:  XM1 S G D B NCHCM_6C
+   345:  .ENDS
+   346:  
+   347:  .SUBCKT NCH_10C D G S B
+   348:  M1 D G S B nmos  w=6.84u  l=0.13u
+   349:  .ENDS
+   350:  
+   351:  .SUBCKT NCHA_10C D G S B
+   352:  XM0 D G S B NCH_10C
+   353:  XM1 S G D B NCH_10C
+   354:  .ENDS
+   355:  
+   356:  .SUBCKT NCHCM_10C D G S B
+   357:  XM0 N0 G S B NCH_10C
+   358:  XM1 N1 G N0 B NCH_10C
+   359:  XM4 N2 G N1 B NCH_10C
+   360:  XM5 D G N2 B NCH_10C
+   361:  .ENDS
+   362:  
+   363:  .SUBCKT NCHCM2_10C D G S B
+   364:  XM0 D G S B NCHCM_10C
+   365:  XM1 S G D B NCHCM_10C
+   366:  .ENDS
+   367:  
+   368:  .SUBCKT NCH_12C D G S B
+   369:  M1 D G S B nmos  w=8.28u  l=0.13u
+   370:  .ENDS
+   371:  
+   372:  .SUBCKT NCHA_12C D G S B
+   373:  XM0 D G S B NCH_12C
+   374:  XM1 S G D B NCH_12C
+   375:  .ENDS
+   376:  
+   377:  .SUBCKT NCHCM_12C D G S B
+   378:  XM0 N0 G S B NCH_12C
+   379:  XM1 N1 G N0 B NCH_12C
+   380:  XM4 N2 G N1 B NCH_12C
+   381:  XM5 D G N2 B NCH_12C
+   382:  .ENDS
+   383:  
+   384:  .SUBCKT NCHCM2_12C D G S B
+   385:  XM0 D G S B NCHCM_12C
+   386:  XM1 S G D B NCHCM_12C
+   387:  .ENDS
+   388:  
+   389:  .SUBCKT TAPCELLB_CV AVDD AVSS
+   390:  XMN1 AVSS AVSS AVSS AVSS NCH
+   391:  XMP1 AVDD AVDD AVDD AVDD PCH
+   392:  .ENDS
+   393:  
+   394:  .SUBCKT TIEH_CV Y AVDD AVSS
+   395:  XMN0 A A AVSS AVSS NCH
+   396:  XMP0 Y A AVDD AVDD PCH
+   397:  .ENDS
+   398:  
+   399:  .SUBCKT TIEL_CV Y AVDD AVSS
+   400:  XMN0 Y A AVSS AVSS NCH
+   401:  XMP0 A A AVDD AVDD PCH
+   402:  .ENDS
+   403:  
+   404:  .SUBCKT IVX1_CV A Y AVDD AVSS
+   405:  XMN0 Y A AVSS AVSS NCH
+   406:  XMP0 Y A AVDD AVDD PCH
+   407:  .ENDS
+   408:  
+   409:  .SUBCKT IVX2_CV A Y AVDD AVSS
+   410:  XMN0 Y A AVSS AVSS NCH
+   411:  XMN1 AVSS A Y AVSS NCH
+   412:  XMP0 Y A AVDD AVDD PCH
+   413:  XMP1 AVDD A Y AVDD PCH
+   414:  .ENDS
+   415:  
+   416:  .SUBCKT IVX4_CV A Y AVDD AVSS
+   417:  XMN0 Y A AVSS AVSS NCH
+   418:  XMN1 AVSS A Y AVSS NCH
+   419:  XMN2 Y A AVSS AVSS NCH
+   420:  XMN3 AVSS A Y AVSS NCH
+   421:  XMP0 Y A AVDD AVDD PCH
+   422:  XMP1 AVDD A Y AVDD PCH
+   423:  XMP2 Y A AVDD AVDD PCH
+   424:  XMP3 AVDD A Y AVDD PCH
+   425:  .ENDS
+   426:  
+   427:  .SUBCKT IVX8_CV A Y AVDD AVSS
+   428:  XMN0 Y A AVSS AVSS NCH
+   429:  XMN1 AVSS A Y AVSS NCH
+   430:  XMN2 Y A AVSS AVSS NCH
+   431:  XMN3 AVSS A Y AVSS NCH
+   432:  XMN4 Y A AVSS AVSS NCH
+   433:  XMN5 AVSS A Y AVSS NCH
+   434:  XMN6 Y A AVSS AVSS NCH
+   435:  XMN7 AVSS A Y AVSS NCH
+   436:  XMP0 Y A AVDD AVDD PCH
+   437:  XMP1 AVDD A Y AVDD PCH
+   438:  XMP2 Y A AVDD AVDD PCH
+   439:  XMP3 AVDD A Y AVDD PCH
+   440:  XMP4 Y A AVDD AVDD PCH
+   441:  XMP5 AVDD A Y AVDD PCH
+   442:  XMP6 Y A AVDD AVDD PCH
+   443:  XMP7 AVDD A Y AVDD PCH
+   444:  .ENDS
+   445:  
+   446:  .SUBCKT BFX1_CV A Y AVDD AVSS
+   447:  XMN0 AVSS A B AVSS NCH
+   448:  XMN1 Y B AVSS AVSS NCH
+   449:  XMP0 AVDD A B AVDD PCH
+   450:  XMP1 Y B AVDD AVDD PCH
+   451:  .ENDS
+   452:  
+   453:  .SUBCKT NRX1_CV A B Y AVDD AVSS
+   454:  XMN0 Y A AVSS AVSS NCH
+   455:  XMN1 AVSS B Y AVSS NCH
+   456:  XMP0 N1 A AVDD AVDD PCH
+   457:  XMP1 Y B N1 AVDD PCH
+   458:  .ENDS
+   459:  
+   460:  .SUBCKT NDX1_CV A B Y AVDD AVSS
+   461:  XMN0 N1 A AVSS AVSS NCH
+   462:  XMN1 Y B N1 AVSS NCH
+   463:  XMP0 Y A AVDD AVDD PCH
+   464:  XMP1 AVDD B Y AVDD PCH
+   465:  .ENDS
+   466:  
+   467:  .SUBCKT ORX1_CV A B Y AVDD AVSS
+   468:  XA1 A B YN AVDD AVSS NRX1_CV
+   469:  XA2 YN Y AVDD AVSS IVX1_CV
+   470:  .ENDS
+   471:  
+   472:  .SUBCKT ORX2_CV A B Y AVDD AVSS
+   473:  XA1 A B YN AVDD AVSS NRX1_CV
+   474:  XA2 YN Y AVDD AVSS IVX1_CV
+   475:  .ENDS
+   476:  
+   477:  .SUBCKT ORX4_CV A B Y AVDD AVSS
+   478:  XA1 A B YN AVDD AVSS NRX1_CV
+   479:  XA2 YN Y AVDD AVSS IVX1_CV
+   480:  .ENDS
+   481:  
+   482:  .SUBCKT ANX1_CV A B Y AVDD AVSS
+   483:  XA1 A B YN AVDD AVSS NDX1_CV
+   484:  XA2 YN Y AVDD AVSS IVX1_CV
+   485:  .ENDS
+   486:  
+   487:  .SUBCKT ANX2_CV A B Y AVDD AVSS
+   488:  XA1 A B YN AVDD AVSS NDX1_CV
+   489:  XA2 YN Y AVDD AVSS IVX1_CV
+   490:  .ENDS
+   491:  
+   492:  .SUBCKT ANX4_CV A B Y AVDD AVSS
+   493:  XA1 A B YN AVDD AVSS NDX1_CV
+   494:  XA2 YN Y AVDD AVSS IVX1_CV
+   495:  .ENDS
+   496:  
+   497:  .SUBCKT ANX8_CV A B Y AVDD AVSS
+   498:  XA1 A B YN AVDD AVSS NDX1_CV
+   499:  XA2 YN Y AVDD AVSS IVX1_CV
+   500:  .ENDS
+   501:  
+   502:  .SUBCKT IVTRIX1_CV A C CN Y AVDD AVSS
+   503:  XMN0 N1 A AVSS AVSS NCH
+   504:  XMN1 Y C N1 AVSS NCH
+   505:  XMP0 N2 A AVDD AVDD PCH
+   506:  XMP1 Y CN N2 AVDD PCH
+   507:  .ENDS
+   508:  
+   509:  .SUBCKT NDTRIX1_CV A C CN RN Y AVDD AVSS
+   510:  XMN2 N1 RN AVSS AVSS NCH
+   511:  XMN0 N2 A N1 AVSS NCH
+   512:  XMN1 Y C N2 AVSS NCH
+   513:  XMP2 AVDD RN N2 AVDD PCH
+   514:  XMP0 N2 A AVDD AVDD PCH
+   515:  XMP1 Y CN N2 AVDD PCH
+   516:  .ENDS
+   517:  
+   518:  .SUBCKT DFRNQNX1_CV D CK RN Q QN AVDD AVSS
+   519:  XA0 AVDD AVSS TAPCELLB_CV
+   520:  XA1 CK RN CKN AVDD AVSS NDX1_CV
+   521:  XA2 CKN CKB AVDD AVSS IVX1_CV
+   522:  XA3 D CKN CKB A0 AVDD AVSS IVTRIX1_CV
+   523:  XA4 A1 CKB CKN A0 AVDD AVSS IVTRIX1_CV
+   524:  XA5 A0 A1 AVDD AVSS IVX1_CV
+   525:  XA6 A1 CKB CKN QN AVDD AVSS IVTRIX1_CV
+   526:  XA7 Q CKN CKB RN QN AVDD AVSS NDTRIX1_CV
+   527:  XA8 QN Q AVDD AVSS IVX1_CV
+   528:  .ENDS
+   529:  
+   530:  .SUBCKT SCX1_CV A Y AVDD AVSS
+   531:  XA2 N1 A AVSS AVSS NCH
+   532:  XA3 SCO A N1 AVSS NCH
+   533:  XA4a AVDD SCO N1 AVSS NCH
+   534:  XA4b AVDD SCO N1 AVSS NCH
+   535:  XA5 Y SCO AVSS AVSS NCH
+   536:  XB0 N2 A AVDD AVDD PCH
+   537:  XB1 SCO A N2 AVDD PCH
+   538:  XB3a N2 SCO AVSS AVDD PCH
+   539:  XB3b N2 SCO AVSS AVDD PCH
+   540:  XB4 Y SCO AVDD AVDD PCH
+   541:  .ENDS
+   542:  
+   543:  .SUBCKT SWX2_CV A Y VREF AVDD AVSS
+   544:  XMN0 Y A AVSS AVSS NCH
+   545:  XMN1 AVSS A Y AVSS NCH
+   546:  XMP0 Y A VREF AVDD PCH
+   547:  XMP1 VREF A Y AVDD PCH
+   548:  .ENDS
+   549:  
+   550:  .SUBCKT SWX4_CV A Y VREF AVDD AVSS
+   551:  XMN0 Y A AVSS AVSS NCH
+   552:  XMN1 AVSS A Y AVSS NCH
+   553:  XMN2 Y A AVSS AVSS NCH
+   554:  XMN3 AVSS A Y AVSS NCH
+   555:  XMP0 Y A VREF AVDD PCH
+   556:  XMP1 VREF A Y AVDD PCH
+   557:  XMP2 Y A VREF AVDD PCH
+   558:  XMP3 VREF A Y AVDD PCH
+   559:  .ENDS
+   560:  
+   561:  .SUBCKT TGPD_CV C A B AVDD AVSS
+   562:  XMN0 AVSS C CN AVSS NCH
+   563:  XMN1 B C AVSS AVSS NCH
+   564:  XMN2 A CN B AVSS NCH
+   565:  XMP0 AVDD C CN AVDD PCH
+   566:  XMP1_DMY B AVDD AVDD AVDD PCH
+   567:  XMP2 A C B AVDD PCH
+   568:  .ENDS
+   569:  
+   570:  .SUBCKT SUN_TR AVDD AVSS
+   571:  XA0 AVDD AVSS TAPCELLB_CV
+   572:  XA1 Y1 AVDD AVSS TIEH_CV
+   573:  XA2 Y2 AVDD AVSS TIEL_CV
+   574:  XB0 AVDD AVSS TAPCELLB_CV
+   575:  XB3 A3 Y3 AVDD AVSS IVX1_CV
+   576:  XB4 A4 Y4 AVDD AVSS IVX2_CV
+   577:  XB5 A5 Y5 AVDD AVSS IVX4_CV
+   578:  XB6 A6 Y6 AVDD AVSS IVX8_CV
+   579:  XC0 AVDD AVSS TAPCELLB_CV
+   580:  XC7 A7 Y7 AVDD AVSS BFX1_CV
+   581:  XD0 AVDD AVSS TAPCELLB_CV
+   582:  XD8 A8 B8 Y8 AVDD AVSS NRX1_CV
+   583:  XD9 A9 B9 Y9 AVDD AVSS NDX1_CV
+   584:  XD10 A10 B10 Y10 AVDD AVSS ORX1_CV
+   585:  XD11 A11 B11 Y11 AVDD AVSS ANX1_CV
+   586:  XE0 AVDD AVSS TAPCELLB_CV
+   587:  XE12 A12 Y12 AVDD AVSS SCX1_CV
+   588:  XF0 AVDD AVSS TAPCELLB_CV
+   589:  XF13 A13 Y13 V13 AVDD AVSS SWX2_CV
+   590:  XF14 A14 Y14 V14 AVDD AVSS SWX4_CV
+   591:  XF15 A15 Y15 V15 AVDD AVSS TGPD_CV
+   592:  .ENDS
+   593:  
+   594:  *end of: ../../lib/SUN_TR_GF130N.spi
+   595:  
+   596:  *----------------------------------------------------------------
+   597:  * Options
+   598:  *----------------------------------------------------------------
+   599:  *.option TNOM=27 GMIN=1e-15 reltol=1e-6 abstol=1e-6
+   600:  
+   601:  *----------------------------------------------------------------
+   602:  * PARAMETERS
+   603:  *----------------------------------------------------------------
+   604:  
+   605:  .param TRF = 10n
+   606:  .param TCLK = 100n
+   607:  .param C_ERASE = 5
+   608:  .param C_EXPOSE = 255
+   609:  .param C_CONVERT = 255
+   610:  .param C_READ = 5
+   611:  
+   612:  *- Pulse Width of control signals
+   613:  .param PW_ERASE =  {(C_ERASE +1)*TCLK}
+   614:  .param PW_EXPOSE =  {(C_EXPOSE +1)*TCLK}
+   615:  .param PW_CONVERT =  {(C_CONVERT +1)*TCLK}
+   616:  .param PW_READ =  {(C_READ +1)*TCLK}
+   617:  
+   618:  *- Delay of control signals
+   619:  .param TD_ERASE = {TCLK }
+   620:  .param TD_EXPOSE = {TD_ERASE + PW_ERASE + TCLK}
+   621:  .param TD_CONVERT = {TD_EXPOSE + PW_EXPOSE + TCLK}
+   622:  .param TD_READ = {TD_CONVERT + PW_CONVERT + TCLK}
+   623:  .param PERIOD = {TD_READ + PW_READ + TCLK}
+   624:  
+   625:  *- Analog parameters
+   626:  .param VDD = 1.5
+   627:  .param VADC_MIN = 0.5
+   628:  .param VADC_MAX = 1.1
+   629:  .param VADC_REF = {VADC_MAX - VADC_MIN}
+   630:  .param VADC_LSB = {VADC_REF/256}
+   631:  
+   632:  *----------------------------------------------------------------
+   633:  * Sources
+   634:  *----------------------------------------------------------------
+   635:  VDD VDD VSS dc VDD
+   636:  VSS VSS 0 dc 0
+   637:  
+   638:  *- Control signals
+   639:  VERASE ERASE 0 dc 0 pulse (0 VDD TD_ERASE TRF TRF PW_ERASE PERIOD)
+   640:  VEXPOSE EXPOSE 0 dc 0 pulse (0 VDD TD_EXPOSE TRF TRF PW_EXPOSE PERIOD)
+   641:  VCONVERT CONVERT 0 dc 0 pulse (0 VDD TD_CONVERT TRF TRF PW_CONVERT PERIOD)
+   642:  VREAD READ 0 dc 0 pulse (0 VDD TD_READ TRF TRF PW_READ PERIOD)
+   643:  
+   644:  *- ADC related sources
+   645:  VREF VREF 0 DC VADC_REF
+   646:  VMAX VMAX 0 DC VADC_MAX
+   647:  VRESET VRESET VMAX DC 0
+   648:  VMIN VMIN 0 DC VADC_MIN
+   649:  
+   650:  
+   651:  *----------------------------------------------------------------
+   652:  * BIAS
+   653:  *----------------------------------------------------------------
+   654:  * Use a current mirror transistor from the SUN_TR_GF130N library
+   655:  IPB1 0 VBN1 dc 1u
+   656:  XMNB0 VBN1 VBN1 VSS VSS NCHCM2
+   657:  
+   658:  *----------------------------------------------------------------
+   659:  * DUT
+   660:  *----------------------------------------------------------------
+   661:  *include pixelSensor.cir
+   662:  * Pixel sensor
+   663:  **********************************************************************
+   664:  **        Copyright (c) 2021 Carsten Wulff Software, Norway
+   665:  ** *******************************************************************
+   666:  ** Created       : wulff at 2021-7-22
+   667:  ** *******************************************************************
+   668:  **  The MIT License (MIT)
+   669:  **
+   670:  **  Permission is hereby granted, free of charge, to any person obtaining a copy
+   671:  **  of this software and associated documentation files (the "Software"), to deal
+   672:  **  in the Software without restriction, including without limitation the rights
+   673:  **  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   674:  **  copies of the Software, and to permit persons to whom the Software is
+   675:  **  furnished to do so, subject to the following conditions:
+   676:  **
+   677:  **  The above copyright notice and this permission notice shall be included in all
+   678:  **  copies or substantial portions of the Software.
+   679:  **
+   680:  **  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   681:  **  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   682:  **  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   683:  **  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   684:  **  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   685:  **  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   686:  **  SOFTWARE.
+   687:  **
+   688:  **********************************************************************
+   689:  
+   690:  .SUBCKT PIXEL_SENSOR VBN1 VRAMP VRESET ERASE EXPOSE READ
+   691:  + DATA_7 DATA_6 DATA_5 DATA_4 DATA_3 DATA_2 DATA_1 DATA_0 VDD VSS
+   692:  
+   693:  
+   694:  XS1 VRESET VSTORE ERASE EXPOSE VDD VSS SENSOR
+   695:  
+   696:  XC1 VCMP_OUT VSTORE VRAMP VDD VSS COMP
+   697:  
+   698:  XM1 READ VCMP_OUT DATA_7 DATA_6 DATA_5 DATA_4 DATA_3 DATA_2 DATA_1 DATA_0 VDD VSS MEMORY
+   699:  
+   700:  .ENDS
+   701:  
+   702:  .SUBCKT MEMORY READ VCMP_OUT
+   703:  + DATA_7 DATA_6 DATA_5 DATA_4 DATA_3 DATA_2 DATA_1 DATA_0 VDD VSS
+   704:  
+   705:  XM1 VCMP_OUT DATA_0 READ VSS MEMCELL
+   706:  XM2 VCMP_OUT DATA_1 READ VSS MEMCELL
+   707:  XM3 VCMP_OUT DATA_2 READ VSS MEMCELL
+   708:  XM4 VCMP_OUT DATA_3 READ VSS MEMCELL
+   709:  XM5 VCMP_OUT DATA_4 READ VSS MEMCELL
+   710:  XM6 VCMP_OUT DATA_5 READ VSS MEMCELL
+   711:  XM7 VCMP_OUT DATA_6 READ VSS MEMCELL
+   712:  XM8 VCMP_OUT DATA_7 READ VSS MEMCELL
+   713:  
+   714:  .ENDS
+   715:  
+   716:  .SUBCKT MEMCELL CMP DATA READ VSS
+   717:  M1 VG CMP DATA VSS nmos  w=0.2u  l=0.13u
+   718:  M2 DATA READ DMEM VSS nmos  w=0.4u  l=0.13u
+   719:  M3 DMEM VG VSS VSS nmos  w=1u  l=0.13u
+   720:  C1 VG VSS 1p
+   721:  .ENDS
+   722:  
+   723:  .SUBCKT SENSOR VRESET VSTORE ERASE EXPOSE VDD VSS
+   724:  
+   725:  * Capacitor to model gate-source capacitance
+   726:  C1 VSTORE VSS 100f
+   727:  Rleak VSTORE VSS 100T
+   728:  
+   729:  * Switch to reset voltage on capacitor
+   730:  BR1 VRESET VSTORE I=V(ERASE)*V(VRESET,VSTORE)/1k
+   731:  
+   732:  * Switch to expose pixel
+   733:  BR2 VPG VSTORE I=V(EXPOSE)*V(VSTORE,VPG)/1k
+   734:  
+   735:  * Model photocurrent
+   736:  Rphoto VPG VSS 1G
+   737:  .ENDS
+   738:  
+   739:  .SUBCKT COMP VCMP_OUT VSTORE VRAMP VDD VSS
+   740:  
+   741:  * Model comparator
+   742:  * BC1 VCMP_OUT VSS V = ((atan(100000*(V(VSTORE) - V(VRAMP)))) + 1.58)/3.14*1.5
+   743:  
+   744:  *current mirror
+   745:  M4 VGATE VGATE VDD VDD pmos W=0.5u L=0.5u
+   746:  M5 VCMP_OUT VGATE VDD VDD pmos W=0.5u L=0.5u
+   747:  
+   748:  *differential pair
+   749:  M6 VGATE VSTORE VI VSS nmos W=0.5u L=0.15u
+   750:  M7 VCMP_OUT VRAMP VI VSS nmos W=0.5u L=0.15u
+   751:  
+   752:  *check sizes for M8-M12
+   753:  *current source below the differential pair
+   754:  M8 VI VBN1 VSS VSS nmos W=0.5u L=0.15u 
+   755:  
+   756:  *common source amplifier
+   757:  M9 VCMP_OUT VDD VINV VDD pmos W=0.5u L=0.15u
+   758:  M10 VINV VNB1 VSS VSS nmos W=0.5u L=0.15u
+   759:  
+   760:  *inverter
+   761:  M11 VCMP VINV VDD VDD pmos W=0.5u L=0.15u
+   762:  M12 VCMP VINV VSS VSS nmos W=0.5u L=0.15u
+   763:  
+   764:  .ENDS
+   765:  
+   766:  
+   767:  *end of: pixelSensor.cir
+   768:  XDUT VBN1 VRAMP VRESET ERASE EXPOSE READ
+   769:  + DATA_7 DATA_6 DATA_5 DATA_4 DATA_3 DATA_2 DATA_1 DATA_0 VDD VSS PIXEL_SENSOR
+   770:  
+   771:  
+   772:  *----------------------------------------------------------------
+   773:  * RAMP
+   774:  *----------------------------------------------------------------
+   775:  * Use a capacitor and current source to model a ramp
+   776:  * I = C x dV/dt, where
+   777:  * dt = PW_CONVERT
+   778:  * C = 1n
+   779:  * dV = VADC_MAX - VADC_MIN
+   780:  BR1 0 VRAMP I = V(CONVERT)*( 1n*(VADC_MAX - VADC_MIN)/PW_CONVERT)
+   781:  CR1 VRAMP 0 1n ic=0
+   782:  
+   783:  * SPICE freaks out if any node only have current sources and capacitors on it. so insert a resistor to ground
+   784:  R1 VRAMP 0 1T
+   785:  
+   786:  * Model reset as a variable resistor to
+   787:  BR2 VRAMP VMIN I=V(ERASE)*V(VRAMP,VMIN)/100
+   788:  
+   789:  
+   790:  *----------------------------------------------------------------
+   791:  * Model the ramp generation and data for the memory
+   792:  *----------------------------------------------------------------
+   793:  * I could not really think of a good way to generate digital signals in SPICE
+   794:  * So I generated the analog ramp, then digitize it to generate the DATA bit
+   795:  * In a real world circuit we would use a DAC, because in SystemVerilog, it's
+   796:  * easy to generate a digital bus
+   797:  B1 VADC 0 V = V(VRAMP) - VADC_MIN
+   798:  XADC7 VADC   REST_7 VREF DATA_7  READ CONVERT VDD ADC_1BIT
+   799:  XADC6 REST_7 REST_6 VREF DATA_6  READ CONVERT VDD ADC_1BIT
+   800:  XADC5 REST_6 REST_5 VREF DATA_5  READ CONVERT VDD ADC_1BIT
+   801:  XADC4 REST_5 REST_4 VREF DATA_4  READ CONVERT VDD ADC_1BIT
+   802:  XADC3 REST_4 REST_3 VREF DATA_3  READ CONVERT VDD ADC_1BIT
+   803:  XADC2 REST_3 REST_2 VREF DATA_2  READ CONVERT VDD ADC_1BIT
+   804:  XADC1 REST_2 REST_1 VREF DATA_1  READ CONVERT VDD ADC_1BIT
+   805:  XADC0 REST_1 REST_0 VREF DATA_0  READ CONVERT VDD ADC_1BIT
+   806:  XDAC0 DATA_7 DATA_6 DATA_5 DATA_4 DATA_3 DATA_2 DATA_1 DATA_0 DO VDD DAC_8BIT
+   807:  
+   808:  *----------------------------------------------------------------
+   809:  * 1-bit ADC model
+   810:  *----------------------------------------------------------------
+   811:  * Use the well know fact that we can connect multiple 1 bit ADCs in series,
+   812:  * as long as we multiply the analog remainder by two.
+   813:  * Or in maths:
+   814:  *   if in > ref/2:
+   815:  *      d = 1
+   816:  *      out = 2*in - ref
+   817:  *   else:
+   818:  *      d = 0
+   819:  *      out = 2*in
+   820:  *
+   821:  * Model the DATA output as pulled to VDD when we're reading
+   822:  .SUBCKT ADC_1BIT VIN VOUT VREF DATA READ CONVERT VDD
+   823:  B1 D 0 V= V(VIN) > V(VREF)/2 ? 1 : 0
+   824:  B2 VOUT 0  V = 2*(V(VIN) - V(VREF)/2*V(D))
+   825:  B3 DATA_INT 0 V = V(D)*V(VDD)
+   826:  B4 DATA_INT DATA I=V(CONVERT)*V(DATA_INT,DATA)/1k
+   827:  B5 DATA VDD I=V(READ)*V(DATA,VDD)/1e4
+   828:  .ENDS
+   829:  
+   830:  
+   831:  
+   832:  *----------------------------------------------------------------
+   833:  * 8-bit DAC model model
+   834:  *----------------------------------------------------------------
+   835:  * integer = 2^7*b7 + 2^6*b6 ... 2^0*b0
+   836:  .SUBCKT DAC_8BIT DATA_7 DATA_6 DATA_5 DATA_4 DATA_3 DATA_2 DATA_1 DATA_0 DO VDD
+   837:  B1 DO_VDD 0 V = 128*V(DATA_7) + 64*V(DATA_6) + 32*V(DATA_5) + 16*V(DATA_4)+ 8*V(DATA_3) + 4*V(DATA_2) + 2*V(DATA_1) + 1*V(DATA_0)
+   838:  B2 DO 0 V = V(DO_VDD)/V(VDD)
+   839:  .ENDS
+   840:  
+   841:  
+   842:  *----------------------------------------------------------------
+   843:  * NGSPICE control
+   844:  *----------------------------------------------------------------
+   845:  
+   846:  .control
+   847:  set color0=white
+   848:  set color1=black
+   849:  unset askquit
+   850:  tran 1n 60u
+   851:  *plot V(ERASE) V(EXPOSE) V(CONVERT) V(READ)
+   852:  plot V(VRAMP) V(CONVERT) V(ERASE)
+   853:  plot V(DO)
+   854:  plot V(XDUT.VSTORE) V(ERASE) V(EXPOSE) V(CONVERT) V(VRAMP) V(XDUT.VCMP_OUT) V(READ)
+   855:  
+   856:  plot v(xdut.xm1.xm1.vg) v(xdut.xm1.xm1.dmem)
+   857:  plot v(xdut.xm1.xm2.vg) v(xdut.xm1.xm2.dmem)
+   858:  plot v(xdut.xm1.xm3.vg) v(xdut.xm1.xm3.dmem)
+   859:  plot v(xdut.xm1.xm4.vg) v(xdut.xm1.xm4.dmem)
+   860:  plot v(xdut.xm1.xm5.vg) v(xdut.xm1.xm5.dmem)
+   861:  plot v(xdut.xm1.xm6.vg) v(xdut.xm1.xm6.dmem)
+   862:  plot v(xdut.xm1.xm7.vg) v(xdut.xm1.xm7.dmem)
+   863:  plot v(xdut.xm1.xm8.vg) v(xdut.xm1.xm8.dmem)
+   864:  .endc
+   865:  .end
+   866:  
+
+***************************  Model Parameters  ****************************
+
+
+***************  Device Parameters (Only for .op analysis)  ***************
+
+
+
+**************************  Analysis Parameters  **************************
+
+
+
+
+**************  Options (Only those different from default)  **************
+
+
+
+***************************  Kernel Messages  *****************************
+
+Circuit: * Pixel sensor testbench
+
+Error on line 37 : .model  nmos  nmos  level = 54 version = 4.5.0          binunit = 1            paramchk= 1            mobmod  = 0 capmod  = 2            igcmod  = 1            igbmod  = 1            geomod  = 1 diomod  = 1            rdsmod  = 0            rbodymod= 1            rgatemod= 1 permod  = 1            acnqsmod= 0            trnqsmod= 0 tnom    = 27           toxe    = 2.25e-9      toxp    = 1.6e-9       toxm    = 2.25e-9 dtox    = 0.65e-9      epsrox  = 3.9          wint    = 5e-009       lint    = 10.5e-009 ll      = 0            wl      = 0            lln     = 1            wln     = 1 lw      = 0            ww      = 0            lwn     = 1            wwn     = 1 lwl     = 0            wwl     = 0            xpart   = 0            toxref  = 2.25e-9 xl      = -60e-9 vth0    = 0.3782       k1      = 0.4          k2      = 0.01         k3      = 0 k3b     = 0            w0      = 2.5e-006     dvt0    = 1            dvt1    = 2 dvt2    = -0.032       dvt0w   = 0            dvt1w   = 0            dvt2w   = 0 dsub    = 0.1          minv    = 0.05         voffl   = 0            dvtp0   = 1.2e-010 dvtp1   = 0.1          lpe0    = 0            lpeb    = 0            xj      = 3.92e-008 ngate   = 2e+020       ndep    = 1.54e+018    nsd     = 2e+020       phin    = 0 cdsc    = 0.0002       cdscb   = 0            cdscd   = 0            cit     = 0 voff    = -0.13        nfactor = 1.5          eta0    = 0.0092       etab    = 0 vfb     = -0.55        u0      = 0.05928      ua      = 6e-010       ub      = 1.2e-018 uc      = 0            vsat    = 100370       a0      = 1            ags     = 1e-020 a1      = 0            a2      = 1            b0      = 0            b1      = 0 keta    = 0.04         dwg     = 0            dwb     = 0            pclm    = 0.06 pdiblc1 = 0.001        pdiblc2 = 0.001        pdiblcb = -0.005       drout   = 0.5 pvag    = 1e-020       delta   = 0.01         pscbe1  = 8.14e+008    pscbe2  = 1e-007 fprout  = 0.2          pdits   = 0.08         pditsd  = 0.23         pditsl  = 2.3e+006 rsh     = 5            rdsw    = 200          rsw     = 100          rdw     = 100 rdswmin = 0            rdwmin  = 0            rswmin  = 0            prwg    = 0 prwb    = 6.8e-011     wr      = 1            alpha0  = 0.074        alpha1  = 0.005 beta0   = 30           agidl   = 0.0002       bgidl   = 2.1e+009     cgidl   = 0.0002 egidl   = 0.8 aigbacc = 0.012        bigbacc = 0.0028       cigbacc = 0.002 nigbacc = 1            aigbinv = 0.014        bigbinv = 0.004        cigbinv = 0.004 eigbinv = 1.1          nigbinv = 3            aigc    = 0.012        bigc    = 0.0028 cigc    = 0.002        aigsd   = 0.012        bigsd   = 0.0028       cigsd   = 0.002 nigc    = 1            poxedge = 1            pigcd   = 1            ntox    = 1 xrcrg1  = 12           xrcrg2  = 5 cgso    = 2.4e-010     cgdo    = 2.4e-010     cgbo    = 2.56e-011    cgdl    = 2.653e-10 cgsl    = 2.653e-10    ckappas = 0.03         ckappad = 0.03         acde    = 1 moin    = 15           noff    = 0.9          voffcv  = 0.02 kt1     = -0.11        kt1l    = 0            kt2     = 0.022        ute     = -1.5 ua1     = 4.31e-009    ub1     = 7.61e-018    uc1     = -5.6e-011    prt     = 0 at      = 33000 fnoimod = 1            tnoimod = 0 jss     = 0.0001       jsws    = 1e-011       jswgs   = 1e-010       njs     = 1 ijthsfwd= 0.01         ijthsrev= 0.001        bvs     = 10           xjbvs   = 1 jsd     = 0.0001       jswd    = 1e-011       jswgd   = 1e-010       njd     = 1 ijthdfwd= 0.01         ijthdrev= 0.001        bvd     = 10           xjbvd   = 1 pbs     = 1            cjs     = 0.0005       mjs     = 0.5          pbsws   = 1 cjsws   = 5e-010       mjsws   = 0.33         pbswgs  = 1            cjswgs  = 3e-010 mjswgs  = 0.33         pbd     = 1            cjd     = 0.0005       mjd     = 0.5 pbswd   = 1            cjswd   = 5e-010       mjswd   = 0.33         pbswgd  = 1 cjswgd  = 5e-010       mjswgd  = 0.33         tpb     = 0.005        tcj     = 0.001 tpbsw   = 0.005        tcjsw   = 0.001        tpbswg  = 0.005        tcjswg  = 0.001 xtis    = 3            xtid    = 3 dmcg    = 0e-006       dmci    = 0e-006       dmdg    = 0e-006       dmcgt   = 0e-007 dwj     = 0.0e-008     xgw     = 0e-007       xgl     = 0e-008 rshg    = 0.4          gbmin   = 1e-010       rbpb    = 5            rbpd    = 15 rbps    = 15           rbdb    = 15           rbsb    = 15           ngcon   = 1
+unrecognized parameter (version) - ignored
+
+unrecognized parameter (4.5.0) - ignored
+
+unrecognized parameter (binunit) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (paramchk) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (mobmod) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (capmod) - ignored
+
+unrecognized parameter (2) - ignored
+
+unrecognized parameter (igcmod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (igbmod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (geomod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (diomod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (rdsmod) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (rbodymod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (rgatemod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (permod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (acnqsmod) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (trnqsmod) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (tnom) - ignored
+
+unrecognized parameter (27) - ignored
+
+unrecognized parameter (toxe) - ignored
+
+unrecognized parameter (2.25e-9) - ignored
+
+unrecognized parameter (toxp) - ignored
+
+unrecognized parameter (1.6e-9) - ignored
+
+unrecognized parameter (toxm) - ignored
+
+unrecognized parameter (2.25e-9) - ignored
+
+unrecognized parameter (dtox) - ignored
+
+unrecognized parameter (0.65e-9) - ignored
+
+unrecognized parameter (epsrox) - ignored
+
+unrecognized parameter (3.9) - ignored
+
+unrecognized parameter (wint) - ignored
+
+unrecognized parameter (5e-009) - ignored
+
+unrecognized parameter (lint) - ignored
+
+unrecognized parameter (10.5e-009) - ignored
+
+unrecognized parameter (ll) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (wl) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (lln) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (wln) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (lw) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (ww) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (lwn) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (wwn) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (lwl) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (wwl) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (toxref) - ignored
+
+unrecognized parameter (2.25e-9) - ignored
+
+unrecognized parameter (xl) - ignored
+
+unrecognized parameter (-60e-9) - ignored
+
+unrecognized parameter (vth0) - ignored
+
+unrecognized parameter (0.3782) - ignored
+
+unrecognized parameter (k3) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (k3b) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (w0) - ignored
+
+unrecognized parameter (2.5e-006) - ignored
+
+unrecognized parameter (dvt0) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (dvt1) - ignored
+
+unrecognized parameter (2) - ignored
+
+unrecognized parameter (dvt2) - ignored
+
+unrecognized parameter (-0.032) - ignored
+
+unrecognized parameter (dvt0w) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (dvt1w) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (dvt2w) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (dsub) - ignored
+
+unrecognized parameter (0.1) - ignored
+
+unrecognized parameter (minv) - ignored
+
+unrecognized parameter (0.05) - ignored
+
+unrecognized parameter (voffl) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (dvtp0) - ignored
+
+unrecognized parameter (1.2e-010) - ignored
+
+unrecognized parameter (dvtp1) - ignored
+
+unrecognized parameter (0.1) - ignored
+
+unrecognized parameter (lpe0) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (lpeb) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (xj) - ignored
+
+unrecognized parameter (3.92e-008) - ignored
+
+unrecognized parameter (ngate) - ignored
+
+unrecognized parameter (2e+020) - ignored
+
+unrecognized parameter (ndep) - ignored
+
+unrecognized parameter (1.54e+018) - ignored
+
+unrecognized parameter (nsd) - ignored
+
+unrecognized parameter (2e+020) - ignored
+
+unrecognized parameter (phin) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (cdsc) - ignored
+
+unrecognized parameter (0.0002) - ignored
+
+unrecognized parameter (cdscb) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (cdscd) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (cit) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (voff) - ignored
+
+unrecognized parameter (-0.13) - ignored
+
+unrecognized parameter (nfactor) - ignored
+
+unrecognized parameter (1.5) - ignored
+
+unrecognized parameter (u0) - ignored
+
+unrecognized parameter (0.05928) - ignored
+
+unrecognized parameter (ua) - ignored
+
+unrecognized parameter (6e-010) - ignored
+
+unrecognized parameter (ub) - ignored
+
+unrecognized parameter (1.2e-018) - ignored
+
+unrecognized parameter (uc) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (vsat) - ignored
+
+unrecognized parameter (100370) - ignored
+
+unrecognized parameter (a0) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (ags) - ignored
+
+unrecognized parameter (1e-020) - ignored
+
+unrecognized parameter (a1) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (a2) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (b0) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (b1) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (keta) - ignored
+
+unrecognized parameter (0.04) - ignored
+
+unrecognized parameter (dwg) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (dwb) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (pclm) - ignored
+
+unrecognized parameter (0.06) - ignored
+
+unrecognized parameter (pdiblc1) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (pdiblc2) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (pdiblcb) - ignored
+
+unrecognized parameter (-0.005) - ignored
+
+unrecognized parameter (drout) - ignored
+
+unrecognized parameter (0.5) - ignored
+
+unrecognized parameter (pvag) - ignored
+
+unrecognized parameter (1e-020) - ignored
+
+unrecognized parameter (delta) - ignored
+
+unrecognized parameter (0.01) - ignored
+
+unrecognized parameter (pscbe1) - ignored
+
+unrecognized parameter (8.14e+008) - ignored
+
+unrecognized parameter (pscbe2) - ignored
+
+unrecognized parameter (1e-007) - ignored
+
+unrecognized parameter (fprout) - ignored
+
+unrecognized parameter (0.2) - ignored
+
+unrecognized parameter (pdits) - ignored
+
+unrecognized parameter (0.08) - ignored
+
+unrecognized parameter (pditsd) - ignored
+
+unrecognized parameter (0.23) - ignored
+
+unrecognized parameter (pditsl) - ignored
+
+unrecognized parameter (2.3e+006) - ignored
+
+unrecognized parameter (rdsw) - ignored
+
+unrecognized parameter (200) - ignored
+
+unrecognized parameter (rsw) - ignored
+
+unrecognized parameter (100) - ignored
+
+unrecognized parameter (rdw) - ignored
+
+unrecognized parameter (100) - ignored
+
+unrecognized parameter (rdswmin) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (rdwmin) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (rswmin) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (prwg) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (prwb) - ignored
+
+unrecognized parameter (6.8e-011) - ignored
+
+unrecognized parameter (wr) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (alpha0) - ignored
+
+unrecognized parameter (0.074) - ignored
+
+unrecognized parameter (alpha1) - ignored
+
+unrecognized parameter (0.005) - ignored
+
+unrecognized parameter (beta0) - ignored
+
+unrecognized parameter (30) - ignored
+
+unrecognized parameter (agidl) - ignored
+
+unrecognized parameter (0.0002) - ignored
+
+unrecognized parameter (bgidl) - ignored
+
+unrecognized parameter (2.1e+009) - ignored
+
+unrecognized parameter (cgidl) - ignored
+
+unrecognized parameter (0.0002) - ignored
+
+unrecognized parameter (egidl) - ignored
+
+unrecognized parameter (0.8) - ignored
+
+unrecognized parameter (aigbacc) - ignored
+
+unrecognized parameter (0.012) - ignored
+
+unrecognized parameter (bigbacc) - ignored
+
+unrecognized parameter (0.0028) - ignored
+
+unrecognized parameter (cigbacc) - ignored
+
+unrecognized parameter (0.002) - ignored
+
+unrecognized parameter (nigbacc) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (aigbinv) - ignored
+
+unrecognized parameter (0.014) - ignored
+
+unrecognized parameter (bigbinv) - ignored
+
+unrecognized parameter (0.004) - ignored
+
+unrecognized parameter (cigbinv) - ignored
+
+unrecognized parameter (0.004) - ignored
+
+unrecognized parameter (eigbinv) - ignored
+
+unrecognized parameter (1.1) - ignored
+
+unrecognized parameter (nigbinv) - ignored
+
+unrecognized parameter (3) - ignored
+
+unrecognized parameter (aigc) - ignored
+
+unrecognized parameter (0.012) - ignored
+
+unrecognized parameter (bigc) - ignored
+
+unrecognized parameter (0.0028) - ignored
+
+unrecognized parameter (cigc) - ignored
+
+unrecognized parameter (0.002) - ignored
+
+unrecognized parameter (aigsd) - ignored
+
+unrecognized parameter (0.012) - ignored
+
+unrecognized parameter (bigsd) - ignored
+
+unrecognized parameter (0.0028) - ignored
+
+unrecognized parameter (cigsd) - ignored
+
+unrecognized parameter (0.002) - ignored
+
+unrecognized parameter (nigc) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (poxedge) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (pigcd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (ntox) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (xrcrg1) - ignored
+
+unrecognized parameter (12) - ignored
+
+unrecognized parameter (xrcrg2) - ignored
+
+unrecognized parameter (5) - ignored
+
+unrecognized parameter (cgdl) - ignored
+
+unrecognized parameter (2.653e-10) - ignored
+
+unrecognized parameter (cgsl) - ignored
+
+unrecognized parameter (2.653e-10) - ignored
+
+unrecognized parameter (ckappas) - ignored
+
+unrecognized parameter (0.03) - ignored
+
+unrecognized parameter (ckappad) - ignored
+
+unrecognized parameter (0.03) - ignored
+
+unrecognized parameter (acde) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (moin) - ignored
+
+unrecognized parameter (15) - ignored
+
+unrecognized parameter (noff) - ignored
+
+unrecognized parameter (0.9) - ignored
+
+unrecognized parameter (voffcv) - ignored
+
+unrecognized parameter (0.02) - ignored
+
+unrecognized parameter (kt1) - ignored
+
+unrecognized parameter (-0.11) - ignored
+
+unrecognized parameter (kt1l) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (kt2) - ignored
+
+unrecognized parameter (0.022) - ignored
+
+unrecognized parameter (ute) - ignored
+
+unrecognized parameter (-1.5) - ignored
+
+unrecognized parameter (ua1) - ignored
+
+unrecognized parameter (4.31e-009) - ignored
+
+unrecognized parameter (ub1) - ignored
+
+unrecognized parameter (7.61e-018) - ignored
+
+unrecognized parameter (uc1) - ignored
+
+unrecognized parameter (-5.6e-011) - ignored
+
+unrecognized parameter (prt) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (at) - ignored
+
+unrecognized parameter (33000) - ignored
+
+unrecognized parameter (fnoimod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (tnoimod) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (jss) - ignored
+
+unrecognized parameter (0.0001) - ignored
+
+unrecognized parameter (jsws) - ignored
+
+unrecognized parameter (1e-011) - ignored
+
+unrecognized parameter (jswgs) - ignored
+
+unrecognized parameter (1e-010) - ignored
+
+unrecognized parameter (njs) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (ijthsfwd) - ignored
+
+unrecognized parameter (0.01) - ignored
+
+unrecognized parameter (ijthsrev) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (bvs) - ignored
+
+unrecognized parameter (10) - ignored
+
+unrecognized parameter (xjbvs) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (jsd) - ignored
+
+unrecognized parameter (0.0001) - ignored
+
+unrecognized parameter (jswd) - ignored
+
+unrecognized parameter (1e-011) - ignored
+
+unrecognized parameter (jswgd) - ignored
+
+unrecognized parameter (1e-010) - ignored
+
+unrecognized parameter (njd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (ijthdfwd) - ignored
+
+unrecognized parameter (0.01) - ignored
+
+unrecognized parameter (ijthdrev) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (bvd) - ignored
+
+unrecognized parameter (10) - ignored
+
+unrecognized parameter (xjbvd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (pbs) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjs) - ignored
+
+unrecognized parameter (0.0005) - ignored
+
+unrecognized parameter (mjs) - ignored
+
+unrecognized parameter (0.5) - ignored
+
+unrecognized parameter (pbsws) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjsws) - ignored
+
+unrecognized parameter (5e-010) - ignored
+
+unrecognized parameter (mjsws) - ignored
+
+unrecognized parameter (0.33) - ignored
+
+unrecognized parameter (pbswgs) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjswgs) - ignored
+
+unrecognized parameter (3e-010) - ignored
+
+unrecognized parameter (mjswgs) - ignored
+
+unrecognized parameter (0.33) - ignored
+
+unrecognized parameter (pbd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjd) - ignored
+
+unrecognized parameter (0.0005) - ignored
+
+unrecognized parameter (mjd) - ignored
+
+unrecognized parameter (0.5) - ignored
+
+unrecognized parameter (pbswd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjswd) - ignored
+
+unrecognized parameter (5e-010) - ignored
+
+unrecognized parameter (mjswd) - ignored
+
+unrecognized parameter (0.33) - ignored
+
+unrecognized parameter (pbswgd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjswgd) - ignored
+
+unrecognized parameter (5e-010) - ignored
+
+unrecognized parameter (mjswgd) - ignored
+
+unrecognized parameter (0.33) - ignored
+
+unrecognized parameter (tpb) - ignored
+
+unrecognized parameter (0.005) - ignored
+
+unrecognized parameter (tcj) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (tpbsw) - ignored
+
+unrecognized parameter (0.005) - ignored
+
+unrecognized parameter (tcjsw) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (tpbswg) - ignored
+
+unrecognized parameter (0.005) - ignored
+
+unrecognized parameter (tcjswg) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (xtis) - ignored
+
+unrecognized parameter (3) - ignored
+
+unrecognized parameter (xtid) - ignored
+
+unrecognized parameter (3) - ignored
+
+unrecognized parameter (dmcg) - ignored
+
+unrecognized parameter (0e-006) - ignored
+
+unrecognized parameter (dmci) - ignored
+
+unrecognized parameter (0e-006) - ignored
+
+unrecognized parameter (dmdg) - ignored
+
+unrecognized parameter (0e-006) - ignored
+
+unrecognized parameter (dmcgt) - ignored
+
+unrecognized parameter (0e-007) - ignored
+
+unrecognized parameter (dwj) - ignored
+
+unrecognized parameter (0.0e-008) - ignored
+
+unrecognized parameter (xgw) - ignored
+
+unrecognized parameter (0e-007) - ignored
+
+unrecognized parameter (xgl) - ignored
+
+unrecognized parameter (0e-008) - ignored
+
+unrecognized parameter (rshg) - ignored
+
+unrecognized parameter (0.4) - ignored
+
+unrecognized parameter (gbmin) - ignored
+
+unrecognized parameter (1e-010) - ignored
+
+unrecognized parameter (rbpb) - ignored
+
+unrecognized parameter (5) - ignored
+
+unrecognized parameter (rbpd) - ignored
+
+unrecognized parameter (15) - ignored
+
+unrecognized parameter (rbps) - ignored
+
+unrecognized parameter (15) - ignored
+
+unrecognized parameter (rbdb) - ignored
+
+unrecognized parameter (15) - ignored
+
+unrecognized parameter (rbsb) - ignored
+
+unrecognized parameter (15) - ignored
+
+unrecognized parameter (ngcon) - ignored
+
+unrecognized parameter (1) - ignored
+
+Error on line 49 : .model  pmos  pmos  level = 54 version = 4.5.0          binunit = 1            paramchk= 1            mobmod  = 0 capmod  = 2            igcmod  = 1            igbmod  = 1            geomod  = 1 diomod  = 1            rdsmod  = 0            rbodymod= 1            rgatemod= 1 permod  = 1            acnqsmod= 0            trnqsmod= 0 tnom    = 27           toxe    = 2.35e-009    toxp    = 1.6e-009     toxm    = 2.35e-009 dtox    = 0.75e-9      epsrox  = 3.9          wint    = 5e-009       lint    = 10.5e-009 ll      = 0            wl      = 0            lln     = 1            wln     = 1 lw      = 0            ww      = 0            lwn     = 1            wwn     = 1 lwl     = 0            wwl     = 0            xpart   = 0            toxref  = 2.35e-009 xl      = -60e-9 vth0    = -0.321       k1      = 0.4          k2      = -0.01        k3      = 0 k3b     = 0            w0      = 2.5e-006     dvt0    = 1            dvt1    = 2 dvt2    = -0.032       dvt0w   = 0            dvt1w   = 0            dvt2w   = 0 dsub    = 0.1          minv    = 0.05         voffl   = 0            dvtp0   = 1e-009 dvtp1   = 0.05         lpe0    = 0            lpeb    = 0            xj      = 3.92e-008 ngate   = 2e+020       ndep    = 1.14e+018    nsd     = 2e+020       phin    = 0 cdsc    = 0.000258     cdscb   = 0            cdscd   = 6.1e-008     cit     = 0 voff    = -0.126       nfactor = 1.5          eta0    = 0.0092       etab    = 0 vfb     = 0.55         u0      = 0.00835      ua      = 2.0e-009     ub      = 0.5e-018 uc      = -3e-011      vsat    = 70000        a0      = 1.0          ags     = 1e-020 a1      = 0            a2      = 1            b0      = -1e-020      b1      = 0 keta    = -0.047       dwg     = 0            dwb     = 0            pclm    = 0.12 pdiblc1 = 0.001        pdiblc2 = 0.001        pdiblcb = 3.4e-008     drout   = 0.56 pvag    = 1e-020       delta   = 0.01         pscbe1  = 8.14e+008    pscbe2  = 9.58e-007 fprout  = 0.2          pdits   = 0.08         pditsd  = 0.23         pditsl  = 2.3e+006 rsh     = 5            rdsw    = 240          rsw     = 120          rdw     = 120 rdswmin = 0            rdwmin  = 0            rswmin  = 0            prwg    = 3.22e-008 prwb    = 6.8e-011     wr      = 1            alpha0  = 0.074        alpha1  = 0.005 beta0   = 30           agidl   = 0.0002       bgidl   = 2.1e+009     cgidl   = 0.0002 egidl   = 0.8 aigbacc = 0.012        bigbacc = 0.0028       cigbacc = 0.002 nigbacc = 1            aigbinv = 0.014        bigbinv = 0.004        cigbinv = 0.004 eigbinv = 1.1          nigbinv = 3            aigc    = 0.69         bigc    = 0.0012 cigc    = 0.0008       aigsd   = 0.0087       bigsd   = 0.0012       cigsd   = 0.0008 nigc    = 1            poxedge = 1            pigcd   = 1            ntox    = 1 xrcrg1  = 12           xrcrg2  = 5 cgso    = 2.4e-010     cgdo    = 2.4e-010     cgbo    = 2.56e-011    cgdl    = 2.653e-10 cgsl    = 2.653e-10    ckappas = 0.03         ckappad = 0.03         acde    = 1 moin    = 15           noff    = 0.9          voffcv  = 0.02 kt1     = -0.11        kt1l    = 0            kt2     = 0.022        ute     = -1.5 ua1     = 4.31e-009    ub1     = 7.61e-018    uc1     = -5.6e-011    prt     = 0 at      = 33000 fnoimod = 1            tnoimod = 0 jss     = 0.0001       jsws    = 1e-011       jswgs   = 1e-010       njs     = 1 ijthsfwd= 0.01         ijthsrev= 0.001        bvs     = 10           xjbvs   = 1 jsd     = 0.0001       jswd    = 1e-011       jswgd   = 1e-010       njd     = 1 ijthdfwd= 0.01         ijthdrev= 0.001        bvd     = 10           xjbvd   = 1 pbs     = 1            cjs     = 0.0005       mjs     = 0.5          pbsws   = 1 cjsws   = 5e-010       mjsws   = 0.33         pbswgs  = 1            cjswgs  = 3e-010 mjswgs  = 0.33         pbd     = 1            cjd     = 0.0005       mjd     = 0.5 pbswd   = 1            cjswd   = 5e-010       mjswd   = 0.33         pbswgd  = 1 cjswgd  = 5e-010       mjswgd  = 0.33         tpb     = 0.005        tcj     = 0.001 tpbsw   = 0.005        tcjsw   = 0.001        tpbswg  = 0.005        tcjswg  = 0.001 xtis    = 3            xtid    = 3 dmcg    = 0e-006       dmci    = 0e-006       dmdg    = 0e-006       dmcgt   = 0e-007 dwj     = 0.0e-008     xgw     = 0e-007       xgl     = 0e-008 rshg    = 0.4          gbmin   = 1e-010       rbpb    = 5            rbpd    = 15 rbps    = 15           rbdb    = 15           rbsb    = 15           ngcon   = 1
+unrecognized parameter (version) - ignored
+
+unrecognized parameter (4.5.0) - ignored
+
+unrecognized parameter (binunit) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (paramchk) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (mobmod) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (capmod) - ignored
+
+unrecognized parameter (2) - ignored
+
+unrecognized parameter (igcmod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (igbmod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (geomod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (diomod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (rdsmod) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (rbodymod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (rgatemod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (permod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (acnqsmod) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (trnqsmod) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (tnom) - ignored
+
+unrecognized parameter (27) - ignored
+
+unrecognized parameter (toxe) - ignored
+
+unrecognized parameter (2.35e-009) - ignored
+
+unrecognized parameter (toxp) - ignored
+
+unrecognized parameter (1.6e-009) - ignored
+
+unrecognized parameter (toxm) - ignored
+
+unrecognized parameter (2.35e-009) - ignored
+
+unrecognized parameter (dtox) - ignored
+
+unrecognized parameter (0.75e-9) - ignored
+
+unrecognized parameter (epsrox) - ignored
+
+unrecognized parameter (3.9) - ignored
+
+unrecognized parameter (wint) - ignored
+
+unrecognized parameter (5e-009) - ignored
+
+unrecognized parameter (lint) - ignored
+
+unrecognized parameter (10.5e-009) - ignored
+
+unrecognized parameter (ll) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (wl) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (lln) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (wln) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (lw) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (ww) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (lwn) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (wwn) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (lwl) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (wwl) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (toxref) - ignored
+
+unrecognized parameter (2.35e-009) - ignored
+
+unrecognized parameter (xl) - ignored
+
+unrecognized parameter (-60e-9) - ignored
+
+unrecognized parameter (vth0) - ignored
+
+unrecognized parameter (-0.321) - ignored
+
+unrecognized parameter (k3) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (k3b) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (w0) - ignored
+
+unrecognized parameter (2.5e-006) - ignored
+
+unrecognized parameter (dvt0) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (dvt1) - ignored
+
+unrecognized parameter (2) - ignored
+
+unrecognized parameter (dvt2) - ignored
+
+unrecognized parameter (-0.032) - ignored
+
+unrecognized parameter (dvt0w) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (dvt1w) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (dvt2w) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (dsub) - ignored
+
+unrecognized parameter (0.1) - ignored
+
+unrecognized parameter (minv) - ignored
+
+unrecognized parameter (0.05) - ignored
+
+unrecognized parameter (voffl) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (dvtp0) - ignored
+
+unrecognized parameter (1e-009) - ignored
+
+unrecognized parameter (dvtp1) - ignored
+
+unrecognized parameter (0.05) - ignored
+
+unrecognized parameter (lpe0) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (lpeb) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (xj) - ignored
+
+unrecognized parameter (3.92e-008) - ignored
+
+unrecognized parameter (ngate) - ignored
+
+unrecognized parameter (2e+020) - ignored
+
+unrecognized parameter (ndep) - ignored
+
+unrecognized parameter (1.14e+018) - ignored
+
+unrecognized parameter (nsd) - ignored
+
+unrecognized parameter (2e+020) - ignored
+
+unrecognized parameter (phin) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (cdsc) - ignored
+
+unrecognized parameter (0.000258) - ignored
+
+unrecognized parameter (cdscb) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (cdscd) - ignored
+
+unrecognized parameter (6.1e-008) - ignored
+
+unrecognized parameter (cit) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (voff) - ignored
+
+unrecognized parameter (-0.126) - ignored
+
+unrecognized parameter (nfactor) - ignored
+
+unrecognized parameter (1.5) - ignored
+
+unrecognized parameter (u0) - ignored
+
+unrecognized parameter (0.00835) - ignored
+
+unrecognized parameter (ua) - ignored
+
+unrecognized parameter (2.0e-009) - ignored
+
+unrecognized parameter (ub) - ignored
+
+unrecognized parameter (0.5e-018) - ignored
+
+unrecognized parameter (uc) - ignored
+
+unrecognized parameter (-3e-011) - ignored
+
+unrecognized parameter (vsat) - ignored
+
+unrecognized parameter (70000) - ignored
+
+unrecognized parameter (a0) - ignored
+
+unrecognized parameter (1.0) - ignored
+
+unrecognized parameter (ags) - ignored
+
+unrecognized parameter (1e-020) - ignored
+
+unrecognized parameter (a1) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (a2) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (b0) - ignored
+
+unrecognized parameter (-1e-020) - ignored
+
+unrecognized parameter (b1) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (keta) - ignored
+
+unrecognized parameter (-0.047) - ignored
+
+unrecognized parameter (dwg) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (dwb) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (pclm) - ignored
+
+unrecognized parameter (0.12) - ignored
+
+unrecognized parameter (pdiblc1) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (pdiblc2) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (pdiblcb) - ignored
+
+unrecognized parameter (3.4e-008) - ignored
+
+unrecognized parameter (drout) - ignored
+
+unrecognized parameter (0.56) - ignored
+
+unrecognized parameter (pvag) - ignored
+
+unrecognized parameter (1e-020) - ignored
+
+unrecognized parameter (delta) - ignored
+
+unrecognized parameter (0.01) - ignored
+
+unrecognized parameter (pscbe1) - ignored
+
+unrecognized parameter (8.14e+008) - ignored
+
+unrecognized parameter (pscbe2) - ignored
+
+unrecognized parameter (9.58e-007) - ignored
+
+unrecognized parameter (fprout) - ignored
+
+unrecognized parameter (0.2) - ignored
+
+unrecognized parameter (pdits) - ignored
+
+unrecognized parameter (0.08) - ignored
+
+unrecognized parameter (pditsd) - ignored
+
+unrecognized parameter (0.23) - ignored
+
+unrecognized parameter (pditsl) - ignored
+
+unrecognized parameter (2.3e+006) - ignored
+
+unrecognized parameter (rdsw) - ignored
+
+unrecognized parameter (240) - ignored
+
+unrecognized parameter (rsw) - ignored
+
+unrecognized parameter (120) - ignored
+
+unrecognized parameter (rdw) - ignored
+
+unrecognized parameter (120) - ignored
+
+unrecognized parameter (rdswmin) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (rdwmin) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (rswmin) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (prwg) - ignored
+
+unrecognized parameter (3.22e-008) - ignored
+
+unrecognized parameter (prwb) - ignored
+
+unrecognized parameter (6.8e-011) - ignored
+
+unrecognized parameter (wr) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (alpha0) - ignored
+
+unrecognized parameter (0.074) - ignored
+
+unrecognized parameter (alpha1) - ignored
+
+unrecognized parameter (0.005) - ignored
+
+unrecognized parameter (beta0) - ignored
+
+unrecognized parameter (30) - ignored
+
+unrecognized parameter (agidl) - ignored
+
+unrecognized parameter (0.0002) - ignored
+
+unrecognized parameter (bgidl) - ignored
+
+unrecognized parameter (2.1e+009) - ignored
+
+unrecognized parameter (cgidl) - ignored
+
+unrecognized parameter (0.0002) - ignored
+
+unrecognized parameter (egidl) - ignored
+
+unrecognized parameter (0.8) - ignored
+
+unrecognized parameter (aigbacc) - ignored
+
+unrecognized parameter (0.012) - ignored
+
+unrecognized parameter (bigbacc) - ignored
+
+unrecognized parameter (0.0028) - ignored
+
+unrecognized parameter (cigbacc) - ignored
+
+unrecognized parameter (0.002) - ignored
+
+unrecognized parameter (nigbacc) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (aigbinv) - ignored
+
+unrecognized parameter (0.014) - ignored
+
+unrecognized parameter (bigbinv) - ignored
+
+unrecognized parameter (0.004) - ignored
+
+unrecognized parameter (cigbinv) - ignored
+
+unrecognized parameter (0.004) - ignored
+
+unrecognized parameter (eigbinv) - ignored
+
+unrecognized parameter (1.1) - ignored
+
+unrecognized parameter (nigbinv) - ignored
+
+unrecognized parameter (3) - ignored
+
+unrecognized parameter (aigc) - ignored
+
+unrecognized parameter (0.69) - ignored
+
+unrecognized parameter (bigc) - ignored
+
+unrecognized parameter (0.0012) - ignored
+
+unrecognized parameter (cigc) - ignored
+
+unrecognized parameter (0.0008) - ignored
+
+unrecognized parameter (aigsd) - ignored
+
+unrecognized parameter (0.0087) - ignored
+
+unrecognized parameter (bigsd) - ignored
+
+unrecognized parameter (0.0012) - ignored
+
+unrecognized parameter (cigsd) - ignored
+
+unrecognized parameter (0.0008) - ignored
+
+unrecognized parameter (nigc) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (poxedge) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (pigcd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (ntox) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (xrcrg1) - ignored
+
+unrecognized parameter (12) - ignored
+
+unrecognized parameter (xrcrg2) - ignored
+
+unrecognized parameter (5) - ignored
+
+unrecognized parameter (cgdl) - ignored
+
+unrecognized parameter (2.653e-10) - ignored
+
+unrecognized parameter (cgsl) - ignored
+
+unrecognized parameter (2.653e-10) - ignored
+
+unrecognized parameter (ckappas) - ignored
+
+unrecognized parameter (0.03) - ignored
+
+unrecognized parameter (ckappad) - ignored
+
+unrecognized parameter (0.03) - ignored
+
+unrecognized parameter (acde) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (moin) - ignored
+
+unrecognized parameter (15) - ignored
+
+unrecognized parameter (noff) - ignored
+
+unrecognized parameter (0.9) - ignored
+
+unrecognized parameter (voffcv) - ignored
+
+unrecognized parameter (0.02) - ignored
+
+unrecognized parameter (kt1) - ignored
+
+unrecognized parameter (-0.11) - ignored
+
+unrecognized parameter (kt1l) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (kt2) - ignored
+
+unrecognized parameter (0.022) - ignored
+
+unrecognized parameter (ute) - ignored
+
+unrecognized parameter (-1.5) - ignored
+
+unrecognized parameter (ua1) - ignored
+
+unrecognized parameter (4.31e-009) - ignored
+
+unrecognized parameter (ub1) - ignored
+
+unrecognized parameter (7.61e-018) - ignored
+
+unrecognized parameter (uc1) - ignored
+
+unrecognized parameter (-5.6e-011) - ignored
+
+unrecognized parameter (prt) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (at) - ignored
+
+unrecognized parameter (33000) - ignored
+
+unrecognized parameter (fnoimod) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (tnoimod) - ignored
+
+unrecognized parameter (0) - ignored
+
+unrecognized parameter (jss) - ignored
+
+unrecognized parameter (0.0001) - ignored
+
+unrecognized parameter (jsws) - ignored
+
+unrecognized parameter (1e-011) - ignored
+
+unrecognized parameter (jswgs) - ignored
+
+unrecognized parameter (1e-010) - ignored
+
+unrecognized parameter (njs) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (ijthsfwd) - ignored
+
+unrecognized parameter (0.01) - ignored
+
+unrecognized parameter (ijthsrev) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (bvs) - ignored
+
+unrecognized parameter (10) - ignored
+
+unrecognized parameter (xjbvs) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (jsd) - ignored
+
+unrecognized parameter (0.0001) - ignored
+
+unrecognized parameter (jswd) - ignored
+
+unrecognized parameter (1e-011) - ignored
+
+unrecognized parameter (jswgd) - ignored
+
+unrecognized parameter (1e-010) - ignored
+
+unrecognized parameter (njd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (ijthdfwd) - ignored
+
+unrecognized parameter (0.01) - ignored
+
+unrecognized parameter (ijthdrev) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (bvd) - ignored
+
+unrecognized parameter (10) - ignored
+
+unrecognized parameter (xjbvd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (pbs) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjs) - ignored
+
+unrecognized parameter (0.0005) - ignored
+
+unrecognized parameter (mjs) - ignored
+
+unrecognized parameter (0.5) - ignored
+
+unrecognized parameter (pbsws) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjsws) - ignored
+
+unrecognized parameter (5e-010) - ignored
+
+unrecognized parameter (mjsws) - ignored
+
+unrecognized parameter (0.33) - ignored
+
+unrecognized parameter (pbswgs) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjswgs) - ignored
+
+unrecognized parameter (3e-010) - ignored
+
+unrecognized parameter (mjswgs) - ignored
+
+unrecognized parameter (0.33) - ignored
+
+unrecognized parameter (pbd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjd) - ignored
+
+unrecognized parameter (0.0005) - ignored
+
+unrecognized parameter (mjd) - ignored
+
+unrecognized parameter (0.5) - ignored
+
+unrecognized parameter (pbswd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjswd) - ignored
+
+unrecognized parameter (5e-010) - ignored
+
+unrecognized parameter (mjswd) - ignored
+
+unrecognized parameter (0.33) - ignored
+
+unrecognized parameter (pbswgd) - ignored
+
+unrecognized parameter (1) - ignored
+
+unrecognized parameter (cjswgd) - ignored
+
+unrecognized parameter (5e-010) - ignored
+
+unrecognized parameter (mjswgd) - ignored
+
+unrecognized parameter (0.33) - ignored
+
+unrecognized parameter (tpb) - ignored
+
+unrecognized parameter (0.005) - ignored
+
+unrecognized parameter (tcj) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (tpbsw) - ignored
+
+unrecognized parameter (0.005) - ignored
+
+unrecognized parameter (tcjsw) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (tpbswg) - ignored
+
+unrecognized parameter (0.005) - ignored
+
+unrecognized parameter (tcjswg) - ignored
+
+unrecognized parameter (0.001) - ignored
+
+unrecognized parameter (xtis) - ignored
+
+unrecognized parameter (3) - ignored
+
+unrecognized parameter (xtid) - ignored
+
+unrecognized parameter (3) - ignored
+
+unrecognized parameter (dmcg) - ignored
+
+unrecognized parameter (0e-006) - ignored
+
+unrecognized parameter (dmci) - ignored
+
+unrecognized parameter (0e-006) - ignored
+
+unrecognized parameter (dmdg) - ignored
+
+unrecognized parameter (0e-006) - ignored
+
+unrecognized parameter (dmcgt) - ignored
+
+unrecognized parameter (0e-007) - ignored
+
+unrecognized parameter (dwj) - ignored
+
+unrecognized parameter (0.0e-008) - ignored
+
+unrecognized parameter (xgw) - ignored
+
+unrecognized parameter (0e-007) - ignored
+
+unrecognized parameter (xgl) - ignored
+
+unrecognized parameter (0e-008) - ignored
+
+unrecognized parameter (rshg) - ignored
+
+unrecognized parameter (0.4) - ignored
+
+unrecognized parameter (gbmin) - ignored
+
+unrecognized parameter (1e-010) - ignored
+
+unrecognized parameter (rbpb) - ignored
+
+unrecognized parameter (5) - ignored
+
+unrecognized parameter (rbpd) - ignored
+
+unrecognized parameter (15) - ignored
+
+unrecognized parameter (rbps) - ignored
+
+unrecognized parameter (15) - ignored
+
+unrecognized parameter (rbdb) - ignored
+
+unrecognized parameter (15) - ignored
+
+unrecognized parameter (rbsb) - ignored
+
+unrecognized parameter (15) - ignored
+
+unrecognized parameter (ngcon) - ignored
+
+unrecognized parameter (1) - ignored
+
+Error on line 702 : b:adc7:1 adc7:d 0 v= v(vadc) > v(vref)/2 ? 1 : 0
+ unknown parameter (>) 
+
+Error on line 702 : b:adc6:1 adc6:d 0 v= v(rest_7) > v(vref)/2 ? 1 : 0
+ unknown parameter (>) 
+
+Error on line 702 : b:adc5:1 adc5:d 0 v= v(rest_6) > v(vref)/2 ? 1 : 0
+ unknown parameter (>) 
+
+Error on line 702 : b:adc4:1 adc4:d 0 v= v(rest_5) > v(vref)/2 ? 1 : 0
+ unknown parameter (>) 
+
+Error on line 702 : b:adc3:1 adc3:d 0 v= v(rest_4) > v(vref)/2 ? 1 : 0
+ unknown parameter (>) 
+
+Error on line 702 : b:adc2:1 adc2:d 0 v= v(rest_3) > v(vref)/2 ? 1 : 0
+ unknown parameter (>) 
+
+Error on line 702 : b:adc1:1 adc1:d 0 v= v(rest_2) > v(vref)/2 ? 1 : 0
+ unknown parameter (>) 
+
+Error on line 702 : b:adc0:1 adc0:d 0 v= v(rest_1) > v(vref)/2 ? 1 : 0
+ unknown parameter (>) 
+
+
