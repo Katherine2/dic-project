@@ -82,23 +82,23 @@ Rphoto VPG VSS 1G
 
 *current mirror
 M4 VGATE VGATE VDD VDD pmos W=0.5u L=0.5u
-M5 VCMP_OUT VGATE VDD VDD pmos W=0.5u L=0.5u
+M5 VCMP VGATE VDD VDD pmos W=0.5u L=0.5u
 
 *differential pair
 M6 VGATE VSTORE VI VSS nmos W=0.5u L=0.15u
-M7 VCMP_OUT VRAMP VI VSS nmos W=0.5u L=0.15u
+M7 VCMP VRAMP VI VSS nmos W=0.5u L=0.15u
 
 *check sizes for M8-M12
 *current source below the differential pair
 M8 VI VBN1 VSS VSS nmos W=0.5u L=0.15u 
 
 *common source amplifier
-M9 VCMP_OUT VDD VINV VDD pmos W=0.5u L=0.15u
+M9 VINV VCMP VDD VDD pmos W=0.5u L=0.15u
 M10 VINV VNB1 VSS VSS nmos W=0.5u L=0.15u
 
 *inverter
-M11 VCMP VINV VDD VDD pmos W=0.5u L=0.15u
-M12 VCMP VINV VSS VSS nmos W=0.5u L=0.15u
+M11 VCMP_OUT VINV VDD VDD pmos W=0.5u L=0.15u
+M12 VCMP_OUT VINV VSS VSS nmos W=0.5u L=0.15u
 
 .ENDS
 
