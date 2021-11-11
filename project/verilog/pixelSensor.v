@@ -42,7 +42,6 @@ module PIXEL_SENSOR
    input logic      EXPOSE,
    input logic      READ,
    inout [7:0] DATA
-
    );
 
    real             v_erase = 1.2;

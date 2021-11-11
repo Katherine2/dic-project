@@ -24,8 +24,8 @@ module data_io(data, clk, reset, write_enable);
       end
       counter_data <= {q[WIDTH-1], q[WIDTH-1:1] ^ q[WIDTH-2:0]};
    end
-   not(inv_counter_data,counter_data);
-   notif1 N1(data, inv_counter_data, write_enable);
+   //not(inv_counter_data,counter_data);
+   //notif1 N1(data, inv_counter_data, write_enable);
 
 endmodule //data_io
 
