@@ -88,7 +88,6 @@ M5 VCMP VGATE VDD VDD pmos W=0.5u L=0.5u
 M6 VGATE VSTORE VI VSS nmos W=0.5u L=0.15u
 M7 VCMP VRAMP VI VSS nmos W=0.5u L=0.15u
 
-*check sizes for M8-M12
 *current source below the differential pair
 M8 VI VBN1 VSS VSS nmos W=0.5u L=0.15u 
 

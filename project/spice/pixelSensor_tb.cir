@@ -44,7 +44,7 @@
 .param TRF = 10n
 .param TCLK = 100n
 .param C_ERASE = 5
-.param C_EXPOSE = 255
+.param C_EXPOSE = 100
 .param C_CONVERT = 255
 .param C_READ = 5
 
@@ -181,31 +181,31 @@ set color0=white
 set color1=black
 unset askquit
 tran 1n 120u
-*plot V(ERASE) V(EXPOSE) V(CONVERT) V(READ)
+plot V(ERASE) V(EXPOSE) V(CONVERT) V(READ)
 *plot V(VRAMP) V(CONVERT) V(ERASE)
-*plot V(DO)
+plot V(DO)
 *plot V(XDUT.VSTORE) V(ERASE) V(EXPOSE) V(CONVERT) V(VRAMP) V(XDUT.VCMP_OUT) V(READ)
 
-*plot v(xdut.xm1.xm1.vg) v(xdut.xm1.xm1.dmem)
-*plot v(xdut.xm1.xm2.vg) v(xdut.xm1.xm2.dmem)
-*plot v(xdut.xm1.xm3.vg) v(xdut.xm1.xm3.dmem)
-*plot v(xdut.xm1.xm4.vg) v(xdut.xm1.xm4.dmem)
-*plot v(xdut.xm1.xm5.vg) v(xdut.xm1.xm5.dmem)
-*plot v(xdut.xm1.xm6.vg) v(xdut.xm1.xm6.dmem)
-*plot v(xdut.xm1.xm7.vg) v(xdut.xm1.xm7.dmem)
-*plot v(xdut.xm1.xm8.vg) v(xdut.xm1.xm8.dmem)
+plot v(xdut.xm1.xm1.vg) v(xdut.xm1.xm1.dmem)
+plot v(xdut.xm1.xm2.vg) v(xdut.xm1.xm2.dmem)
+plot v(xdut.xm1.xm3.vg) v(xdut.xm1.xm3.dmem)
+plot v(xdut.xm1.xm4.vg) v(xdut.xm1.xm4.dmem)
+plot v(xdut.xm1.xm5.vg) v(xdut.xm1.xm5.dmem)
+plot v(xdut.xm1.xm6.vg) v(xdut.xm1.xm6.dmem)
+plot v(xdut.xm1.xm7.vg) v(xdut.xm1.xm7.dmem)
+plot v(xdut.xm1.xm8.vg) v(xdut.xm1.xm8.dmem)
 
-plot v(xdut.xc1.vinv)
+*plot v(xdut.xc1.vinv)
 *plot v(xdut.xc1.vcmp_out)
-plot v(xdut.xc1.vi)
-plot v(xdut.xc1.vcmp)
-plot v(xdut.xc1.vgate)
-plot v(xdut.xc1.vstore)
-plot v(xdut.xc1.vbn1)
+*plot v(xdut.xc1.vi)
+*plot v(xdut.xc1.vcmp)
+*plot v(xdut.xc1.vgate)
+*plot v(xdut.xc1.vstore)
+*plot v(xdut.xc1.vbn1)
 *plot v(xdut.xc1.vramp)
 *plot v(xdut.xc1.vdd)
 *plot v(xdut.xc1.vss)
-plot V(XDUT.VCMP_OUT) V(XDUT.VSTORE) V(VRAMP)
+plot V(XDUT.VCMP_OUT) V(XDUT.VSTORE) V(VRAMP) 
 
 .endc
 .end

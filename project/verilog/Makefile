@@ -9,3 +9,8 @@ rungray:
 
 synth:
 	yosys counter.ys
+	
+	
+pa:
+	iverilog -g2012 -o pixelArray -c pixelArray.fl
+	vvp -n pixelArray
