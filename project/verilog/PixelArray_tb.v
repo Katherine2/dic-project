@@ -68,12 +68,13 @@ module pixelArray_tb;
    logic              read_4;
    tri[7:0]           pixData; 
 
+
    //Instanstiate the pixel array
    PIXEL_ARRAY PA(anaBias1, anaRamp, anaReset, erase,expose, read_1, read_2, read_3, read_4, pixData);
  
- //------------------------------------------------------------
- // Gray Counter
- //------------------------------------------------------------
+   //------------------------------------------------------------
+   // Gray Counter
+   //------------------------------------------------------------
 
    output [7 : 0] gray_counter; //8 bit Gray Counter
 
@@ -89,7 +90,7 @@ module pixelArray_tb;
       end
       gray_counter <= {q[7], q[7:1] ^ q[6:0]};
    end
-   
+  
    //------------------------------------------------------------
    // State Machine
    //------------------------------------------------------------
@@ -242,7 +243,7 @@ module pixelArray_tb;
            counter_reset=0;
       end
    end // always @ (posedge clk or posedge reset)
-
+ 
    //------------------------------------------------------------
    // DAC and ADC model
    //------------------------------------------------------------

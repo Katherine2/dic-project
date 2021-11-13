@@ -1,38 +1,42 @@
-
-   parameter real    dv_pixel = 0.5;  //Set the expected photodiode current (0-1)
-     
-     //Analog signals
-   logic              anaBias1;
-   logic              anaRamp;
-   logic              anaReset;
-
-   //Tie off the unused lines
-   assign anaReset = 1;
-
-   //Digital
-   logic              erase;
-   logic              expose;
-   logic              read_1;
-   logic              read_2;
-   logic              read_3;
-   logic              read_4;
-   tri[7:0]          pixData; //  We need this to be a wire, because we're tristating it
    
+module stateMachine(
+   input logic clk,
+   input logic reset,
+   output logic erase,
+   output logic expose,
+   output logic convert,
+   output logic read_1,
+   output logic read_2,
+   output logic read_3,
+   output logic read_4
+);
    
-   PIXEL_ARRAY  #(.dv_pixel(dv_pixel))  PA (anaBias1, anaRamp, anaReset, erase,expose, read_1, read_2, read_3, read_4, pixData);
- 
+   //------------------------------------------------------------
+   // Gray Counter
+   //------------------------------------------------------------
+
+   output [7 : 0] gray_counter; //8 bit Gray Counter
+
+   logic [7 : 0]  gray_counter;
+   logic [7 : 0]  q;
+   logic counter_reset =0;
+  
+   always @(posedge clk or posedge counter_reset) begin
+      if (counter_reset)
+        q <= 0;
+      else begin
+        q <= q + 1;
+      end
+      gray_counter <= {q[7], q[7:1] ^ q[6:0]};
+   end
    
    //------------------------------------------------------------
    // State Machine
    //------------------------------------------------------------
-   parameter ERASE=0, EXPOSE=1, CONVERT=2, READ=3, IDLE=4;
+   parameter ERASE=0, EXPOSE=1, CONVERT=2, READ_1=3, READ_2=4, READ_3=5, READ_4=6, IDLE=7;
 
-   logic               convert;
    logic               convert_stop;
    logic [2:0]         state,next_state;   //States
-   integer           counter;            //Delay counter in state machine
-
-   integer check; //to check which pixel is read
    
    //State duration in clock cycles
    parameter integer c_erase = 5;
@@ -40,9 +44,7 @@
    parameter integer c_convert = 255;
    parameter integer c_read = 5;
 
-assign check=1;
-
-   // Control the output signals
+   //Control the output signals
    always_ff @(negedge clk ) begin
       case(state)
         ERASE: begin
@@ -72,56 +74,41 @@ assign check=1;
            expose <= 0;
            convert = 1;
         end
-        READ: begin
-           case(check)
-           	1: begin
-           	    erase <= 0;
-           	    read_1 <= 1;
-           	    expose <= 0;
-           	    convert <= 0;
-           	2: begin
-           	    erase <= 0;
-           	    read_2 <= 1;
-           	    expose <= 0;
-           	    convert <= 0;
-           	3: begin
-           	    erase <= 0;
-           	    read_3 <= 1;
-           	    expose <= 0;
-           	    convert <= 0;
-           	4: begin
-           	    erase <= 0;
-           	    read_4 <= 1;
-           	    expose <= 0;
-           	    convert <= 0;
-           end
-         /*
-         	if(check == 1){
-           	    erase <= 0;
-           	    read_1 <= 1;
-           	    expose <= 0;
-           	    convert <= 0;
-           	}
-         	else if(check == 2){
-           	    erase <= 0;
-           	    read_2 <= 1;
-           	    expose <= 0;
-           	    convert <= 0;
-           	}
-         	else if(check == 3){
-           	    erase <= 0;
-           	    read_3 <= 1;
-           	    expose <= 0;
-           	    convert <= 0;
-           	}
-         	else if(check == 4){
-           	    erase <= 0;
-           	    read_4 <= 1;
-           	    expose <= 0;
-           	    convert <= 0;
-           	}
-           	*/
-         		
+        READ_1: begin
+           erase <= 0;
+           read_1 <= 1;
+           read_2 <= 0;
+           read_3 <= 0;
+           read_4 <= 0;
+           expose <= 0;
+           convert <= 0;
+        end
+        READ_2: begin
+           erase <= 0;
+           read_1 <= 0;
+           read_2 <= 1;
+           read_3 <= 0;
+           read_4 <= 0;
+           expose <= 0;
+           convert <= 0;
+        end
+	READ_3: begin
+           erase <= 0;
+           read_1 <= 0;
+           read_2 <= 0;
+           read_3 <= 1;
+           read_4 <= 0;
+           expose <= 0;
+           convert <= 0;
+        end
+	READ_4: begin
+           erase <= 0;
+           read_1 <= 0;
+           read_2 <= 0;
+           read_3 <= 0;
+           read_4 <= 1;
+           expose <= 0;
+           convert <= 0;
         end
         IDLE: begin
            erase <= 0;
@@ -131,7 +118,6 @@ assign check=1;
            read_4 <= 0;
            expose <= 0;
            convert <= 0;
-
         end
       endcase // case (state)
    end // always @ (state)
@@ -141,45 +127,59 @@ assign check=1;
       if(reset) begin
          state = IDLE;
          next_state = ERASE;
-         counter  = 0;
+         gray_counter  = 0;
          convert  = 0;
       end
       else begin
          case (state)
            ERASE: begin
-              if(counter == c_erase) begin
+              if(gray_counter == c_erase) begin
                  next_state <= EXPOSE;
                  state <= IDLE;
               end
            end
            EXPOSE: begin
-              if(counter == c_expose) begin
+              if(gray_counter == c_expose) begin
                  next_state <= CONVERT;
                  state <= IDLE;
               end
            end
            CONVERT: begin
-              if(counter == c_convert) begin
-                 next_state <= READ;
+              if(gray_counter == c_convert) begin
+                 next_state <= READ_1;
                  state <= IDLE;
               end
            end
-           READ:
-             if(counter == c_read) begin
+           READ_1:
+             if(gray_counter == c_read) begin
                 state <= IDLE;
-                if(check==5)
-                   next_state <= ERASE;
-                   check=1;
-                else 
-                   next_state <= READ;
-                   check=check+1;
+                next_state <= READ_2;
+             end
+           READ_2:
+             if(gray_counter == c_read) begin
+                state <= IDLE;
+                next_state <= READ_3;
+             end
+           READ_3:
+             if(gray_counter == c_read) begin
+                state <= IDLE;
+                next_state <= READ_4;
+             end
+           READ_4:
+             if(gray_counter == c_read) begin
+                state <= IDLE;
+                next_state <= ERASE;
              end
            IDLE:
              state <= next_state;
          endcase // case (state)
+         
          if(state == IDLE)
-           counter = 0;
+           counter_reset=1;
+           
          else
-           counter = counter + 1;
+           counter_reset=0;
       end
    end // always @ (posedge clk or posedge reset)
+
+endmodule //end module statemachine 
