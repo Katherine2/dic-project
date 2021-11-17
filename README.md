@@ -1,7 +1,6 @@
 # dic_project
 
-This repository contains all of the code used for our final project in the Design of Integrated Circuits (TFE-41
-52)class at NTNU.
+This repository contains all of the code used for our final project in the Design of Integrated Circuits (TFE-4152)class at NTNU.
 
 The repo is seperated in two parts:
 
