@@ -1,4 +1,4 @@
-cff-version: 1.2.0
+
 message: "If you use this software, please cite it as below."
 authors:
   - family-names: Sirois
@@ -6,5 +6,4 @@ authors:
   - family-names: Waris
     given-names: Amna
 title: "Final Project for Design of Integrated Circuits at NTNU"
-version: 2.0
 date-released: 2021-11-16
