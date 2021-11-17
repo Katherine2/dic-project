@@ -13,4 +13,5 @@ In the Verilog section, there are a few important files:
 3. State_Machine.v which describes the finite state machine that dictates how the pixel array works
 4. stateMachine_tb.v which is the test bench that tests runs the simulation for the entire pixel array controlled by the state machine
 5. StateMachine.txt and stateMachine_tb.vcd which are the outputs of the simulation run in the test bench. The text file has the output values of the pixels and the vcd file can be used to visualize the behaviour of each signal in GTKwave
+
 The other files were used as intermediate testing and are not necessary for the functionning of the project
